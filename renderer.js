@@ -31,11 +31,12 @@ canvas.addEventListener("mousedown", (e) => {
 });
 
 let pickedColor;
+let strokeWidth = 1;
 
 canvas.addEventListener("mousemove", (e) => {
   if (isDrawing) {
     ctx.strokeStyle = pickedColor || "white";
-    ctx.lineWidth = 1;
+    ctx.lineWidth = strokeWidth;
     ctx.beginPath();
     ctx.moveTo(x, y);
     ctx.lineTo(e.offsetX, e.offsetY);
@@ -53,7 +54,12 @@ canvas.addEventListener("mouseup", () => {
 });
 
 const colorInput = document.getElementById("color-input");
+const strokeInput = document.getElementById("stroke");
 
 colorInput.addEventListener("change", (e) => {
   pickedColor = e.target.value;
+});
+
+strokeInput.addEventListener("change", (e) => {
+  strokeWidth = Number(e.target.value);
 });
