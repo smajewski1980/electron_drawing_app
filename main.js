@@ -1,5 +1,13 @@
-const { app, BrowserWindow, ipcMain, Tray, Menu } = require("electron/main");
+const {
+  app,
+  BrowserWindow,
+  ipcMain,
+  Tray,
+  Menu,
+  dialog,
+} = require("electron/main");
 const path = require("node:path");
+const fs = require("node:fs");
 let tray = null;
 
 const createWindow = () => {
@@ -30,6 +38,23 @@ app.whenReady().then(() => {
   // this is where we set the tray icon
 
   // ipc handles here
+  ipcMain.handle("saveImage", async (e, data) => {
+    const { filePath } = await dialog.showSaveDialog({
+      filters: [{ name: "Image Files", extensions: ["png"] }],
+      defaultPath: path.join(
+        app.getPath("downloads"),
+        "my-wonderful-image.png",
+      ),
+    });
+    if (filePath) {
+      const buffer = Buffer.from(data);
+      fs.writeFileSync(filePath, buffer, (err) => {
+        console.log(err);
+      });
+      return "wonderful image saved";
+    }
+    console.log("dialog was closed before saving");
+  });
 
   createWindow();
 });
