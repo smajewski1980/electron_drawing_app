@@ -46,15 +46,14 @@ canvas.addEventListener("mousemove", (e) => {
     y = e.offsetY;
   }
 });
-canvas.addEventListener("mouseleave", () => {
-  isDrawing = false;
-});
+
 canvas.addEventListener("mouseup", () => {
   isDrawing = false;
 });
 
 const colorInput = document.getElementById("color-input");
 const strokeInput = document.getElementById("stroke");
+const clearBtn = document.getElementById("clear-btn");
 
 colorInput.addEventListener("change", (e) => {
   pickedColor = e.target.value;
@@ -62,4 +61,8 @@ colorInput.addEventListener("change", (e) => {
 
 strokeInput.addEventListener("change", (e) => {
   strokeWidth = Number(e.target.value);
+});
+
+clearBtn.addEventListener("click", () => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 });

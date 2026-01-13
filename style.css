@@ -20,4 +20,8 @@ p {
   width: 800px;
   height: 500px;
   outline: 1px solid limegreen;
+
+  &:hover {
+    cursor: crosshair;
+  }
 }
