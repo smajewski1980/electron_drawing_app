@@ -4,13 +4,12 @@ let tray = null;
 
 const createWindow = () => {
   const win = new BrowserWindow({
-    width: 1000,
-    height: 500,
+    width: 1200,
+    height: 700,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
   });
-
   Menu.setApplicationMenu(null);
 
   // i like it to open on top of everything
