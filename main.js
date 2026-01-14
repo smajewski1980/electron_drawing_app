@@ -10,6 +10,21 @@ const path = require("node:path");
 const fs = require("node:fs");
 let tray = null;
 
+function getAutoIncrementedFileName(origPath) {
+  const dir = path.dirname(origPath);
+  const ext = path.extname(origPath);
+  const basename = path.basename(origPath, ext);
+  let newPath = origPath;
+  let counter = 1;
+
+  while (fs.existsSync(newPath)) {
+    newPath = path.join(dir, `${basename} (${counter})${ext}`);
+    counter++;
+  }
+
+  return newPath;
+}
+
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 1200,
@@ -39,18 +54,18 @@ app.whenReady().then(() => {
 
   // ipc handles here
   ipcMain.handle("saveImage", async (e, data) => {
+    const dloadsPath = app.getPath("downloads");
+    const preferredPath = path.join(dloadsPath, "my-wonderful-image.png");
+    const uniquePath = getAutoIncrementedFileName(preferredPath);
+
     const { filePath } = await dialog.showSaveDialog({
       filters: [{ name: "Image Files", extensions: ["png"] }],
-      defaultPath: path.join(
-        app.getPath("downloads"),
-        "my-wonderful-image.png",
-      ),
+      defaultPath: uniquePath,
     });
     if (filePath) {
       const buffer = Buffer.from(data);
-      fs.writeFileSync(filePath, buffer, (err) => {
-        console.log(err);
-      });
+
+      fs.writeFileSync(filePath, buffer);
       return "wonderful image saved";
     }
     console.log("dialog was closed before saving");

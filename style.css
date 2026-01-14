@@ -17,9 +17,12 @@ p {
 }
 
 #canvas {
-  width: 800px;
-  height: 500px;
+  /* width: 800px; */
+  width: 80%;
+  /* height: 500px; */
+  height: 80%;
   outline: 1px solid limegreen;
+  margin-inline-start: 10%;
 
   &:hover {
     cursor: crosshair;

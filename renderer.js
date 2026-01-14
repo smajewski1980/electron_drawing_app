@@ -10,6 +10,14 @@ let strokeWidth = 1;
 let x;
 let y;
 
+function isCanvasBlank(canvas) {
+  const blank = document.createElement("canvas");
+  blank.width = canvas.width;
+  blank.height = canvas.height;
+
+  return canvas.toDataURL() === blank.toDataURL();
+}
+
 // this may just be because of my crappy laptop monitor...
 function setupCanvas() {
   // Get the device pixel ratio, falling back to 1.
@@ -28,6 +36,18 @@ function setupCanvas() {
   ctx.scale(dpr, dpr);
 }
 setupCanvas();
+
+const resizeObserver = new ResizeObserver((entries) => {
+  if (!isCanvasBlank(canvas)) {
+    if (confirm("resizing the canvas will erase your gorgeous picture...")) {
+      return setupCanvas();
+    }
+  } else {
+    setupCanvas();
+  }
+});
+
+resizeObserver.observe(canvas);
 
 // capture the point where the cursor touches the canvas
 canvas.addEventListener("mousedown", (e) => {
