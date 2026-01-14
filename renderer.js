@@ -54,8 +54,8 @@ resizeObserver.observe(canvas);
 
 // capture the point where the cursor touches the canvas
 canvas.addEventListener("mousedown", (e) => {
-  x = e.offsetX;
-  y = e.offsetY;
+  x = Math.floor(e.offsetX);
+  y = Math.floor(e.offsetY);
   isDrawing = true;
 });
 
@@ -74,14 +74,19 @@ canvas.addEventListener("mousemove", (e) => {
     ctx.beginPath();
     // like picking the pen up and setting it down in a different spot on the paper, moveTo()
     ctx.moveTo(x, y);
-    ctx.lineTo(e.offsetX, e.offsetY);
+    ctx.lineTo(Math.floor(e.offsetX), Math.floor(e.offsetY));
     ctx.stroke();
     ctx.closePath();
     // set x and y to the current
-    x = e.offsetX;
-    y = e.offsetY;
-  } else {
-    ctx.clearRect(e.offsetX, e.offsetY, strokeWidth, strokeWidth);
+    x = Math.floor(e.offsetX);
+    y = Math.floor(e.offsetY);
+  } else if (isDrawing && isEraser) {
+    ctx.clearRect(
+      Math.floor(e.offsetX),
+      Math.floor(e.offsetY),
+      strokeWidth + 5,
+      strokeWidth + 5,
+    );
   }
 });
 
