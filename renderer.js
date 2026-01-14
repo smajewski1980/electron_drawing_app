@@ -1,6 +1,7 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const colorInput = document.getElementById("color-input");
+const bgColorInput = document.getElementById("bg-color-input");
 const strokeInput = document.getElementById("stroke");
 const clearBtn = document.getElementById("clear-btn");
 const saveBtn = document.getElementById("save-btn");
@@ -94,12 +95,17 @@ strokeInput.addEventListener("change", (e) => {
   strokeWidth = Number(e.target.value);
 });
 
-clearBtn.addEventListener("click", () => {
+clearBtn.addEventListener("click", (e) => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 });
 
-saveBtn.addEventListener("click", () => {
+saveBtn.addEventListener("click", (e) => {
   saveTest();
+});
+
+bgColorInput.addEventListener("change", (e) => {
+  const newBgColor = e.target.value;
+  canvas.style.backgroundColor = newBgColor;
 });
 
 function saveTest() {
