@@ -15,24 +15,26 @@
   <body>
     <p>My Sketchpad</p>
     <canvas id="canvas"></canvas><br />
-    <input
-      type="color"
-      name="color"
-      id="color-input"
-      value="#ffffff"
-    />
-    <label for="stroke">stroke width:</label>
-    <input
-      type="range"
-      name="stroke"
-      id="stroke"
-      min="1"
-      max="10"
-      step="1"
-      value="1"
-    />
-    <button id="clear-btn">clear canvas</button>
-    <button id="save-btn">save masterpiece</button>
+    <div id="controls">
+      <input
+        type="color"
+        name="color"
+        id="color-input"
+        value="#ffffff"
+      />
+      <label for="stroke">stroke width:</label>
+      <input
+        type="range"
+        name="stroke"
+        id="stroke"
+        min="1"
+        max="10"
+        step="1"
+        value="1"
+      />
+      <button id="clear-btn">clear canvas</button>
+      <button id="save-btn">save masterpiece</button>
+    </div>
     <script src="./renderer.js"></script>
   </body>
 </html>
