@@ -38,6 +38,10 @@ p {
   align-items: center;
   width: 80%;
   margin-inline-start: 10%;
+
+  label {
+    user-select: none;
+  }
 }
 
 .control-group {

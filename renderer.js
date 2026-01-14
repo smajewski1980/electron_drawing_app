@@ -5,11 +5,13 @@ const bgColorInput = document.getElementById("bg-color-input");
 const strokeInput = document.getElementById("stroke");
 const clearBtn = document.getElementById("clear-btn");
 const saveBtn = document.getElementById("save-btn");
+const eraserCheckBox = document.getElementById("eraser");
 let isDrawing = false;
 let pickedColor;
 let strokeWidth = 1;
 let x;
 let y;
+let isEraser = false;
 
 function isCanvasBlank(canvas) {
   const blank = document.createElement("canvas");
@@ -66,7 +68,7 @@ canvas.addEventListener("mouseleave", () => {
 
 // if the mouse is pressed draw when the mouse moves
 canvas.addEventListener("mousemove", (e) => {
-  if (isDrawing) {
+  if (isDrawing && !isEraser) {
     ctx.strokeStyle = pickedColor || "white";
     ctx.lineWidth = strokeWidth;
     ctx.beginPath();
@@ -78,6 +80,8 @@ canvas.addEventListener("mousemove", (e) => {
     // set x and y to the current
     x = e.offsetX;
     y = e.offsetY;
+  } else {
+    ctx.clearRect(e.offsetX, e.offsetY, strokeWidth, strokeWidth);
   }
 });
 
@@ -108,6 +112,7 @@ bgColorInput.addEventListener("change", (e) => {
   canvas.style.backgroundColor = newBgColor;
 });
 
+// whoops, need to rename this function
 function saveTest() {
   canvas.toBlob(async (data) => {
     const arrBuff = await data.arrayBuffer();
@@ -119,3 +124,20 @@ function saveTest() {
     console.log(await response);
   }, "image/png");
 }
+
+eraserCheckBox.addEventListener("change", (e) => {
+  const label = colorInput.labels[0];
+  if (e.target.checked) {
+    isEraser = true;
+    colorInput.inert = true;
+    label.inert = true;
+    colorInput.style.opacity = 0.4;
+    label.style.opacity = 0.4;
+  } else {
+    isEraser = false;
+    colorInput.inert = false;
+    label.inert = false;
+    colorInput.style.opacity = 1;
+    label.style.opacity = 1;
+  }
+});
