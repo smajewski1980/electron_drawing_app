@@ -56,6 +56,13 @@ canvas.addEventListener("mousedown", (e) => {
   isDrawing = true;
 });
 
+// if mouse leaves the canvas lift the pen
+canvas.addEventListener("mouseleave", () => {
+  if (isDrawing) {
+    isDrawing = false;
+  }
+});
+
 // if the mouse is pressed draw when the mouse moves
 canvas.addEventListener("mousemove", (e) => {
   if (isDrawing) {

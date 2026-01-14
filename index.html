@@ -16,22 +16,36 @@
     <p>My Sketchpad</p>
     <canvas id="canvas"></canvas><br />
     <div id="controls">
-      <input
-        type="color"
-        name="color"
-        id="color-input"
-        value="#ffffff"
-      />
-      <label for="stroke">stroke width:</label>
-      <input
-        type="range"
-        name="stroke"
-        id="stroke"
-        min="1"
-        max="10"
-        step="1"
-        value="1"
-      />
+      <div class="control-group">
+        <label for="color-input">F.G. Color</label>
+        <input
+          type="color"
+          name="color"
+          id="color-input"
+          value="#ffffff"
+        />
+      </div>
+      <div class="control-group">
+        <label for="bg-color-input">B.G. Color</label>
+        <input
+          type="color"
+          name="bgColor"
+          id="bg-color-input"
+          value="#202020"
+        />
+      </div>
+      <div class="control-group">
+        <label for="stroke">stroke width:</label>
+        <input
+          type="range"
+          name="stroke"
+          id="stroke"
+          min="1"
+          max="10"
+          step="1"
+          value="1"
+        />
+      </div>
       <button id="clear-btn">clear canvas</button>
       <button id="save-btn">save masterpiece</button>
     </div>

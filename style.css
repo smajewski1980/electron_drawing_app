@@ -17,6 +17,7 @@ p {
   font-weight: 700;
   margin-block: 1rem 2rem;
   text-align: center;
+  user-select: none;
 }
 
 #canvas {
@@ -34,6 +35,12 @@ p {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  align-items: center;
   width: 80%;
   margin-inline-start: 10%;
+}
+
+.control-group {
+  display: grid;
+  justify-items: center;
 }
