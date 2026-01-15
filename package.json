@@ -19,7 +19,8 @@
     ],
     "directories": {
       "output": "dist"
-    }
+    },
+    "icon": "assets/sketchpad_icon.ico"
   },
   "devDependencies": {
     "electron": "^39.2.7",
