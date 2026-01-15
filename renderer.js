@@ -12,6 +12,7 @@ let strokeWidth = 1;
 let x;
 let y;
 let isEraser = false;
+ctx.imageSmoothingEnabled = false;
 
 function isCanvasBlank(canvas) {
   const blank = document.createElement("canvas");
@@ -138,11 +139,13 @@ eraserCheckBox.addEventListener("change", (e) => {
     label.inert = true;
     colorInput.style.opacity = 0.4;
     label.style.opacity = 0.4;
+    canvas.classList.add("eraser");
   } else {
     isEraser = false;
     colorInput.inert = false;
     label.inert = false;
     colorInput.style.opacity = 1;
     label.style.opacity = 1;
+    canvas.classList.remove("eraser");
   }
 });

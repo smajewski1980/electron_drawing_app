@@ -30,6 +30,9 @@ p {
     cursor: crosshair;
   }
 }
+#canvas.eraser:hover {
+  cursor: url("assets/eraser-32.png") 0 16, crosshair;
+}
 
 #controls {
   display: flex;
