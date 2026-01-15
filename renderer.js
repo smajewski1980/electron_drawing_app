@@ -14,7 +14,7 @@ let y;
 let isEraser = false;
 ctx.imageSmoothingEnabled = false;
 const undoStack = [];
-const redoStack = [];
+let redoStack = [];
 
 function saveState() {
   const dataUrl = canvas.toDataURL();
@@ -22,6 +22,7 @@ function saveState() {
 }
 
 function undo() {
+  if (undoStack.length === 0) return;
   if (undoStack.length > 1) {
     const curr = undoStack.pop();
     redoStack.push(curr);
@@ -133,6 +134,7 @@ canvas.addEventListener("mousemove", (e) => {
 canvas.addEventListener("mouseup", () => {
   isDrawing = false;
   saveState();
+  redoStack = [];
 });
 
 // listeners for the UI controls
