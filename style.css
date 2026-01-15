@@ -27,7 +27,7 @@ p {
   margin-inline-start: 10%;
 
   &:hover {
-    cursor: crosshair;
+    cursor: url("assets/brush-32.png") 0 32, crosshair;
   }
 }
 #canvas.eraser:hover {
