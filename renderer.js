@@ -13,6 +13,44 @@ let x;
 let y;
 let isEraser = false;
 ctx.imageSmoothingEnabled = false;
+const undoStack = [];
+const redoStack = [];
+
+function saveState() {
+  const dataUrl = canvas.toDataURL();
+  undoStack.push(dataUrl);
+}
+
+function undo() {
+  if (undoStack.length > 1) {
+    const curr = undoStack.pop();
+    redoStack.push(curr);
+    const prevUrl = undoStack[undoStack.length - 1];
+    const img = new Image();
+    img.src = prevUrl;
+    img.onload = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0);
+    };
+  } else {
+    const curr = undoStack.pop();
+    redoStack.push(curr);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+}
+
+function redo() {
+  if (redoStack.length > 0) {
+    const curr = redoStack.pop();
+    undoStack.push(curr);
+    const img = new Image();
+    img.src = curr;
+    img.onload = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0);
+    };
+  }
+}
 
 function isCanvasBlank(canvas) {
   const blank = document.createElement("canvas");
@@ -94,6 +132,7 @@ canvas.addEventListener("mousemove", (e) => {
 // dont draw after the mouse button is released
 canvas.addEventListener("mouseup", () => {
   isDrawing = false;
+  saveState();
 });
 
 // listeners for the UI controls
@@ -147,5 +186,15 @@ eraserCheckBox.addEventListener("change", (e) => {
     colorInput.style.opacity = 1;
     label.style.opacity = 1;
     canvas.classList.remove("eraser");
+  }
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.ctrlKey && e.key === "z") {
+    undo();
+  }
+
+  if (e.ctrlKey && e.key === "r") {
+    redo();
   }
 });
