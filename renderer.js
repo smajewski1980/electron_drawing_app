@@ -17,11 +17,21 @@ ctx.imageSmoothingEnabled = false;
 let undoStack = [];
 let redoStack = [];
 
+// just found out about JSDocs, unneccesarry here, but trying them out
+/**
+ * Turns the canvas to a data url
+ * and pushes it to the undo stack
+ * @returns {void}
+ */
 function saveState() {
   const dataUrl = canvas.toDataURL();
   undoStack.push(dataUrl);
 }
 
+/**
+ * Handles the undo action
+ * @returns {void}
+ */
 function undo() {
   if (undoStack.length === 0) return;
   if (undoStack.length > 1) {
@@ -41,6 +51,10 @@ function undo() {
   }
 }
 
+/**
+ * Handles the redo action
+ * @returns {void}
+ */
 function redo() {
   if (redoStack.length > 0) {
     const curr = redoStack.pop();
@@ -54,6 +68,12 @@ function redo() {
   }
 }
 
+/**
+ * Loads given file onto the canvas,
+ * preserving the images aspect ration.
+ * @param {file} file
+ * @returns {void}
+ */
 function loadImgOnCanvas(file) {
   if (file && file.type.startsWith("image/")) {
     const reader = new FileReader();
@@ -75,6 +95,11 @@ function loadImgOnCanvas(file) {
   }
 }
 
+/**
+ * A function to check if the canvas is blank.
+ * @param {canvas} canvas
+ * @returns {boolean}
+ */
 function isCanvasBlank(canvas) {
   const blank = document.createElement("canvas");
   blank.width = canvas.width;
@@ -83,7 +108,11 @@ function isCanvasBlank(canvas) {
   return canvas.toDataURL() === blank.toDataURL();
 }
 
-// this may just be because of my crappy laptop monitor...
+/**
+ * The problem this remedies, may only have been occurring
+ * because of the lower resolution of my laptop monitor.
+ * @returns {void}
+ */
 function setupCanvas() {
   // Get the device pixel ratio, falling back to 1.
   const dpr = window.devicePixelRatio || 1;
@@ -102,6 +131,10 @@ function setupCanvas() {
 }
 setupCanvas();
 
+/**
+ * On resize, if the canvas is not blank, prompt user that
+ * resizing will clear the canvas.
+ */
 const resizeObserver = new ResizeObserver((entries) => {
   if (!isCanvasBlank(canvas)) {
     if (confirm("resizing the canvas will erase your gorgeous picture...")) {
@@ -175,7 +208,7 @@ clearBtn.addEventListener("click", (e) => {
 });
 
 saveBtn.addEventListener("click", (e) => {
-  saveTest();
+  saveCanvas();
 });
 
 bgColorInput.addEventListener("change", (e) => {
@@ -183,8 +216,11 @@ bgColorInput.addEventListener("change", (e) => {
   canvas.style.backgroundColor = newBgColor;
 });
 
-// whoops, need to rename this function
-function saveTest() {
+/**
+ * Saves the current canvas to a file
+ * @returns {void}
+ */
+function saveCanvas() {
   canvas.toBlob(async (data) => {
     const arrBuff = await data.arrayBuffer();
     const response = await window.saveImage.saveImage("saveImage", arrBuff);
