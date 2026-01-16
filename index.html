@@ -13,67 +13,66 @@
     />
   </head>
   <body>
-    <p>My Sketchpad</p>
-    <main>
-      <div id="controls">
-        <div class="color-control-group">
-          <div class="control-group">
-            <label for="color-input">F.G. Color</label>
-            <input
-              type="color"
-              name="color"
-              id="color-input"
-              value="#ffffff"
-            />
-          </div>
-          <div class="control-group">
-            <label for="bg-color-input">B.G. Color</label>
-            <input
-              type="color"
-              name="bgColor"
-              id="bg-color-input"
-              value="#202020"
-            />
-          </div>
-        </div>
+    <div id="controls">
+      <p>Let's Draw</p>
+      <div class="color-control-group">
         <div class="control-group">
-          <label
-            id="stroke-label"
-            for="stroke"
-            >brush width:</label
-          >
+          <label for="color-input">F.G. Color</label>
           <input
-            type="range"
-            name="stroke"
-            id="stroke"
-            min="1"
-            max="10"
-            step="2"
-            value="1"
+            type="color"
+            name="color"
+            id="color-input"
+            value="#ffffff"
           />
         </div>
         <div class="control-group">
-          <label for="eraser">eraser</label>
+          <label for="bg-color-input">B.G. Color</label>
           <input
-            type="checkbox"
-            name="eraser"
-            id="eraser"
+            type="color"
+            name="bgColor"
+            id="bg-color-input"
+            value="#202020"
           />
         </div>
-        <button id="clear-btn">clear canvas</button>
-        <div class="control-group">
-          <button><label for="load-img-input">choose file</label></button>
-          <input
-            type="file"
-            name="load-img"
-            id="load-img-input"
-            accept="image/*"
-          />
-        </div>
-        <button id="save-btn">save masterpiece</button>
       </div>
-      <canvas id="canvas"></canvas>
-    </main>
+      <div class="control-group">
+        <label
+          id="stroke-label"
+          for="stroke"
+          >brush width:</label
+        >
+        <input
+          type="range"
+          name="stroke"
+          id="stroke"
+          min="1"
+          max="10"
+          step="2"
+          value="1"
+        />
+      </div>
+      <div class="control-group">
+        <label for="eraser">eraser</label>
+        <input
+          type="checkbox"
+          name="eraser"
+          id="eraser"
+        />
+      </div>
+      <button id="clear-btn">clear canvas</button>
+      <div class="control-group">
+        <button><label for="load-img-input">choose file</label></button>
+        <input
+          type="file"
+          name="load-img"
+          id="load-img-input"
+          accept="image/*"
+        />
+      </div>
+      <button id="save-btn">save masterpiece</button>
+    </div>
+    <canvas id="canvas"></canvas>
+
     <script src="./renderer.js"></script>
   </body>
 </html>
