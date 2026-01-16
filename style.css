@@ -20,11 +20,14 @@ p {
   user-select: none;
 }
 
+main {
+  display: flex;
+}
+
 #canvas {
   width: 80%;
   height: 80%;
   outline: 1px solid limegreen;
-  margin-inline-start: 10%;
 
   &:hover {
     cursor: url("assets/brush-32.png") 0 32, crosshair;
@@ -35,21 +38,28 @@ p {
 }
 
 #controls {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+  display: grid;
   align-items: center;
-  width: 80%;
-  margin-inline-start: 10%;
+  justify-items: center;
+  gap: 0.5rem;
+  width: 15%;
+  /* height: 100dvh; */
+  outline: 1px solid pink;
 
   label {
     user-select: none;
   }
 }
 
-.control-group {
+.control-group:not(#eraser) {
   display: grid;
   justify-items: center;
+}
+
+.control-group:has(#eraser) {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
 }
 
 .color-control-group {
@@ -58,5 +68,40 @@ p {
 
   label {
     margin-block-end: 0.25rem;
+  }
+}
+
+#load-img-input {
+  display: none;
+}
+
+#stroke {
+  height: 50px;
+  writing-mode: vertical-rl;
+  rotate: 180deg;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: 1px solid #000000;
+  font-size: 2rem;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+#stroke-label {
+  position: relative;
+
+  &::after {
+    content: "min";
+    position: absolute;
+    top: 50px;
+    left: 0;
+  }
+  &::before {
+    content: "max";
+    position: absolute;
+    top: 20px;
+    right: 0;
   }
 }
