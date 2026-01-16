@@ -14,7 +14,7 @@ let x;
 let y;
 let isEraser = false;
 ctx.imageSmoothingEnabled = false;
-const undoStack = [];
+let undoStack = [];
 let redoStack = [];
 
 function saveState() {
@@ -170,6 +170,8 @@ strokeInput.addEventListener("change", (e) => {
 
 clearBtn.addEventListener("click", (e) => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  undoStack = [];
+  redoStack = [];
 });
 
 saveBtn.addEventListener("click", (e) => {
