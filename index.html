@@ -16,23 +16,25 @@
     <p>My Sketchpad</p>
     <canvas id="canvas"></canvas><br />
     <div id="controls">
-      <div class="control-group">
-        <label for="color-input">F.G. Color</label>
-        <input
-          type="color"
-          name="color"
-          id="color-input"
-          value="#ffffff"
-        />
-      </div>
-      <div class="control-group">
-        <label for="bg-color-input">B.G. Color</label>
-        <input
-          type="color"
-          name="bgColor"
-          id="bg-color-input"
-          value="#202020"
-        />
+      <div class="color-control-group">
+        <div class="control-group">
+          <label for="color-input">F.G. Color</label>
+          <input
+            type="color"
+            name="color"
+            id="color-input"
+            value="#ffffff"
+          />
+        </div>
+        <div class="control-group">
+          <label for="bg-color-input">B.G. Color</label>
+          <input
+            type="color"
+            name="bgColor"
+            id="bg-color-input"
+            value="#202020"
+          />
+        </div>
       </div>
       <div class="control-group">
         <label for="stroke">stroke width:</label>
@@ -53,6 +55,12 @@
         id="eraser"
       />
       <button id="clear-btn">clear canvas</button>
+      <input
+        type="file"
+        name="load-img"
+        id="load-img-input"
+        accept="image/*"
+      />
       <button id="save-btn">save masterpiece</button>
     </div>
     <script src="./renderer.js"></script>

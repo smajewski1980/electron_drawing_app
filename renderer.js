@@ -6,6 +6,7 @@ const strokeInput = document.getElementById("stroke");
 const clearBtn = document.getElementById("clear-btn");
 const saveBtn = document.getElementById("save-btn");
 const eraserCheckBox = document.getElementById("eraser");
+const loadImgInput = document.getElementById("load-img-input");
 let isDrawing = false;
 let pickedColor;
 let strokeWidth = 1;
@@ -50,6 +51,27 @@ function redo() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(img, 0, 0);
     };
+  }
+}
+
+function loadImgOnCanvas(file) {
+  if (file && file.type.startsWith("image/")) {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onload = (e) => {
+      const img = new Image();
+      img.src = e.target.result;
+
+      img.onload = (e) => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        img.width = (img.width / img.height) * canvas.height;
+        img.height = canvas.height;
+        ctx.drawImage(img, 0, 0, img.width, img.height);
+      };
+    };
+  } else {
+    alert("Please select a valid image file.");
   }
 }
 
@@ -199,4 +221,9 @@ document.addEventListener("keydown", (e) => {
   if (e.ctrlKey && e.key === "r") {
     redo();
   }
+});
+
+loadImgInput.addEventListener("change", (e) => {
+  const fileToLoad = e.target.files[0];
+  loadImgOnCanvas(fileToLoad);
 });
