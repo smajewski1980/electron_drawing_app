@@ -24,7 +24,6 @@ p {
 
 #canvas {
   width: 80%;
-  /* height: 80%; */
   outline: 1px solid limegreen;
   margin-inline-start: 15%;
 
@@ -59,6 +58,47 @@ p {
     font: inherit;
     cursor: pointer;
   }
+
+  #save-btn {
+    background: none;
+    padding: 0;
+    border: none;
+    position: relative;
+
+    img {
+      max-width: 2.5rem;
+    }
+
+    &::after {
+      content: "save";
+      position: absolute;
+      bottom: 0.25rem;
+      left: 50%;
+      transform: translateX(-50%);
+      color: limegreen;
+    }
+  }
+
+  #clear-btn {
+    background: none;
+    padding: 0;
+    border: none;
+    position: relative;
+
+    img {
+      max-width: 3rem;
+      filter: brightness(0.75);
+    }
+    &::after {
+      content: "start\Aover";
+      line-height: 1;
+      position: absolute;
+      bottom: 0.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      color: hsl(120, 61%, 60%);
+    }
+  }
 }
 
 .control-group:not(#eraser) {
@@ -67,13 +107,40 @@ p {
 }
 
 .control-group:has(#load-img-input) {
-  width: 100%;
+  position: relative;
+
+  label {
+    cursor: pointer;
+  }
+
+  img {
+    max-width: 3.25rem;
+    filter: brightness(0.6);
+  }
+
+  &::after {
+    content: "open";
+    cursor: pointer;
+    position: absolute;
+    bottom: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: limegreen;
+  }
 }
 
 .control-group:has(#eraser) {
   display: flex;
   align-items: center;
   gap: 0.25rem;
+
+  > * {
+    cursor: pointer;
+  }
+
+  input {
+    accent-color: limegreen;
+  }
 }
 
 .color-control-group {

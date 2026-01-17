@@ -17,7 +17,7 @@ ctx.imageSmoothingEnabled = false;
 let undoStack = [];
 let redoStack = [];
 
-// just found out about JSDocs, unneccesarry here, but trying them out
+// just found out about JSDocs...
 /**
  * Turns the canvas to a data url
  * and pushes it to the undo stack
@@ -205,6 +205,10 @@ clearBtn.addEventListener("click", (e) => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   undoStack = [];
   redoStack = [];
+  canvas.style.backgroundColor = "#202020";
+  bgColorInput.value = "#202020";
+  colorInput.value = "#ffffff";
+  pickedColor = "#ffffff";
 });
 
 saveBtn.addEventListener("click", (e) => {

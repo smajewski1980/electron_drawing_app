@@ -52,16 +52,31 @@
         />
       </div>
       <div class="control-group">
-        <label for="eraser">eraser</label>
+        <label for="eraser"
+          ><img
+            src="./assets/eraser-32.png"
+            alt="eraser tool"
+        /></label>
         <input
           type="checkbox"
           name="eraser"
           id="eraser"
         />
       </div>
-      <button id="clear-btn">clear canvas</button>
+      <button id="clear-btn">
+        <img
+          src="./assets/trash.png"
+          alt="clear canvas"
+        />
+      </button>
       <div class="control-group">
-        <button><label for="load-img-input">choose file</label></button>
+        <!-- <button> -->
+        <label for="load-img-input"
+          ><img
+            src="./assets/icons8-open-file-folder-100.png"
+            alt="open file"
+        /></label>
+        <!-- </button> -->
         <input
           type="file"
           name="load-img"
@@ -69,7 +84,12 @@
           accept="image/*"
         />
       </div>
-      <button id="save-btn">save masterpiece</button>
+      <button id="save-btn">
+        <img
+          src="./assets/disk.png"
+          alt="save drawing"
+        />
+      </button>
     </div>
     <canvas id="canvas"></canvas>
 
