@@ -34,6 +34,9 @@ p {
 #canvas.eraser:hover {
   cursor: url("assets/eraser-32.png") 0 16, crosshair;
 }
+#canvas.clone:hover {
+  cursor: url("assets/clone-32.png") 16 32, crosshair;
+}
 
 #controls {
   display: grid;
@@ -73,6 +76,26 @@ p {
       content: "save";
       position: absolute;
       bottom: 0.25rem;
+      left: 50%;
+      transform: translateX(-50%);
+      color: limegreen;
+    }
+  }
+
+  #clone-btn {
+    background: none;
+    padding: 0;
+    border: none;
+    position: relative;
+
+    img {
+      max-width: 2.75rem;
+    }
+
+    &::after {
+      content: "clone";
+      position: absolute;
+      bottom: 0.75rem;
       left: 50%;
       transform: translateX(-50%);
       color: limegreen;
