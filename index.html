@@ -51,6 +51,12 @@
           value="1"
         />
       </div>
+      <button id="brush-btn">
+        <img
+          src="./assets/brush-32.png"
+          alt="brush tool"
+        />
+      </button>
       <button id="clone-btn">
         <img
           src="./assets/clone.png"
@@ -58,16 +64,12 @@
         />
       </button>
       <div class="control-group">
-        <label for="eraser"
-          ><img
+        <button id="eraser-btn">
+          <img
             src="./assets/eraser-32.png"
             alt="eraser tool"
-        /></label>
-        <input
-          type="checkbox"
-          name="eraser"
-          id="eraser"
-        />
+          />
+        </button>
       </div>
       <button id="clear-btn">
         <img
@@ -97,10 +99,7 @@
         />
       </button>
     </div>
-    <canvas
-      id="canvas"
-      class="clone"
-    ></canvas>
+    <canvas id="canvas"></canvas>
 
     <script src="./renderer.js"></script>
   </body>

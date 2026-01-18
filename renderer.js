@@ -3,6 +3,9 @@ const ctx = canvas.getContext("2d");
 const colorInput = document.getElementById("color-input");
 const bgColorInput = document.getElementById("bg-color-input");
 const strokeInput = document.getElementById("stroke");
+const brushBtn = document.getElementById("brush-btn");
+const cloneBtn = document.getElementById("clone-btn");
+const eraserBtn = document.getElementById("eraser-btn");
 const clearBtn = document.getElementById("clear-btn");
 const saveBtn = document.getElementById("save-btn");
 const eraserCheckBox = document.getElementById("eraser");
@@ -12,10 +15,10 @@ let pickedColor;
 let strokeWidth = 1;
 let x;
 let y;
-let isEraser = false;
-ctx.imageSmoothingEnabled = false;
+let tool = "brush";
 let undoStack = [];
 let redoStack = [];
+ctx.imageSmoothingEnabled = false;
 
 // just found out about JSDocs...
 /**
@@ -27,6 +30,12 @@ function saveState() {
   const dataUrl = canvas.toDataURL();
   undoStack.push(dataUrl);
 }
+
+function setCursor(str) {
+  document.body.className = "";
+  document.body.classList.add(str);
+}
+setCursor(tool);
 
 /**
  * Handles the undo action
@@ -163,7 +172,7 @@ canvas.addEventListener("mouseleave", () => {
 
 // if the mouse is pressed draw when the mouse moves
 canvas.addEventListener("mousemove", (e) => {
-  if (isDrawing && !isEraser) {
+  if (isDrawing && tool === "brush") {
     ctx.strokeStyle = pickedColor || "white";
     ctx.lineWidth = strokeWidth;
     ctx.beginPath();
@@ -175,7 +184,7 @@ canvas.addEventListener("mousemove", (e) => {
     // set x and y to the current
     x = Math.floor(e.offsetX);
     y = Math.floor(e.offsetY);
-  } else if (isDrawing && isEraser) {
+  } else if (isDrawing && tool === "eraser") {
     ctx.clearRect(
       Math.floor(e.offsetX),
       Math.floor(e.offsetY),
@@ -236,24 +245,24 @@ function saveCanvas() {
   }, "image/png");
 }
 
-eraserCheckBox.addEventListener("change", (e) => {
-  const label = colorInput.labels[0];
-  if (e.target.checked) {
-    isEraser = true;
-    colorInput.inert = true;
-    label.inert = true;
-    colorInput.style.opacity = 0.4;
-    label.style.opacity = 0.4;
-    canvas.classList.add("eraser");
-  } else {
-    isEraser = false;
-    colorInput.inert = false;
-    label.inert = false;
-    colorInput.style.opacity = 1;
-    label.style.opacity = 1;
-    canvas.classList.remove("eraser");
-  }
-});
+// eraserCheckBox.addEventListener("change", (e) => {
+//   const label = colorInput.labels[0];
+//     label.inert = true;
+//     label.style.opacity = 0.4;
+//     colorInput.inert = true;
+//     colorInput.style.opacity = 0.4;
+//   if (e.target.checked) {
+//     tool = "eraser";
+//     canvas.classList.add("eraser");
+//   } else {
+//     tool = "brush";
+//     colorInput.inert = false;
+//     label.inert = false;
+//     colorInput.style.opacity = 1;
+//     label.style.opacity = 1;
+//     canvas.classList.remove("eraser");
+//   }
+// });
 
 document.addEventListener("keydown", (e) => {
   if (e.ctrlKey && e.key === "z") {
@@ -269,3 +278,36 @@ loadImgInput.addEventListener("change", (e) => {
   const fileToLoad = e.target.files[0];
   loadImgOnCanvas(fileToLoad);
 });
+
+brushBtn.addEventListener("click", () => {
+  tool = "brush";
+  setCursor(tool);
+  reenableFgColor();
+});
+
+cloneBtn.addEventListener("click", () => {
+  tool = "clone";
+  setCursor(tool);
+  disableFgColor();
+});
+eraserBtn.addEventListener("click", () => {
+  tool = "eraser";
+  setCursor(tool);
+  disableFgColor();
+});
+
+function disableFgColor() {
+  const label = colorInput.labels[0];
+  label.inert = true;
+  label.style.opacity = 0.4;
+  colorInput.inert = true;
+  colorInput.style.opacity = 0.4;
+}
+
+function reenableFgColor() {
+  const label = colorInput.labels[0];
+  colorInput.inert = false;
+  label.inert = false;
+  colorInput.style.opacity = 1;
+  label.style.opacity = 1;
+}
