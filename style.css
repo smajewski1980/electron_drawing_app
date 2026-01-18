@@ -14,14 +14,6 @@ body {
   align-content: center;
 }
 
-p {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-block: 1rem 2rem;
-  text-align: center;
-  user-select: none;
-}
-
 #canvas {
   width: 80%;
   outline: 1px solid limegreen;
@@ -40,6 +32,21 @@ body.clone {
   cursor: url("assets/clone-32.png") 16 32, crosshair;
 }
 
+.tool-options {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  outline: 2px solid limegreen;
+  background-color: rgba(4, 53, 4, 0.9);
+  padding: 1rem;
+  z-index: 999;
+  transition: top 1s ease;
+
+  p:first-child {
+    margin-block-end: 1rem;
+  }
+}
+
 #controls {
   display: grid;
   align-items: center;
@@ -47,7 +54,6 @@ body.clone {
   gap: 0.5rem;
   width: 15%;
   height: 100dvh;
-  /* outline: 1px solid pink; */
   position: fixed;
   top: 0;
   left: 0;
@@ -56,12 +62,20 @@ body.clone {
     user-select: none;
   }
 
+  p {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-block: 1rem 2rem;
+    text-align: center;
+    user-select: none;
+  }
+
   button {
     width: 75%;
     padding-block: 0.5rem;
     border-radius: 5px;
     font: inherit;
-    cursor: pointer;
+    cursor: inherit;
   }
 
   #brush-btn {
@@ -72,6 +86,7 @@ body.clone {
 
     img {
       max-width: 1.5rem;
+      cursor: pointer;
     }
 
     /* &::after {
@@ -92,6 +107,7 @@ body.clone {
 
     img {
       max-width: 1.5rem;
+      cursor: pointer;
     }
 
     /* &::after {
@@ -105,7 +121,6 @@ body.clone {
   }
 
   #eraser-btn {
-    cursor: pointer;
     background: none;
     padding: 0;
     border: none;
@@ -113,6 +128,7 @@ body.clone {
     img {
       transform: translateX(-0.25rem);
       max-width: 1.5rem;
+      cursor: pointer;
     }
   }
 
@@ -124,6 +140,7 @@ body.clone {
 
     img {
       max-width: 1.5rem;
+      cursor: pointer;
     }
     /* &::after {
       content: "start\Aover";
@@ -166,6 +183,7 @@ body.clone {
 
     img {
       max-width: 2rem;
+      cursor: pointer;
     }
 
     /* &::after {

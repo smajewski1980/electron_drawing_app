@@ -10,6 +10,7 @@ const clearBtn = document.getElementById("clear-btn");
 const saveBtn = document.getElementById("save-btn");
 const eraserCheckBox = document.getElementById("eraser");
 const loadImgInput = document.getElementById("load-img-input");
+const toolOptionsDiv = document.querySelector(".tool-options");
 let isDrawing = false;
 let pickedColor;
 let strokeWidth = 1;
@@ -19,6 +20,7 @@ let tool = "brush";
 let cloneImage = undefined;
 let undoStack = [];
 let redoStack = [];
+let showToolOptions = false;
 ctx.imageSmoothingEnabled = false;
 
 // just found out about JSDocs...
@@ -30,6 +32,19 @@ ctx.imageSmoothingEnabled = false;
 function saveState() {
   const dataUrl = canvas.toDataURL();
   undoStack.push(dataUrl);
+}
+
+function handleToolOptions() {
+  if (showToolOptions) {
+    document.startViewTransition(() => {
+      toolOptionsDiv.style.top = "1rem";
+    });
+    // toolOptionsDiv.classList.add("displaying");
+  } else {
+    document.startViewTransition(() => {
+      toolOptionsDiv.style.top = "-100%";
+    });
+  }
 }
 
 /**
@@ -306,16 +321,22 @@ brushBtn.addEventListener("click", () => {
   tool = "brush";
   setCursor(tool);
   reenableFgColor();
+  showToolOptions = false;
+  handleToolOptions();
 });
 
 cloneBtn.addEventListener("click", () => {
   tool = "clone";
   setCursor(tool);
   disableFgColor();
+  showToolOptions = true;
+  handleToolOptions();
 });
 
 eraserBtn.addEventListener("click", () => {
   tool = "eraser";
   setCursor(tool);
   disableFgColor();
+  showToolOptions = false;
+  handleToolOptions();
 });
