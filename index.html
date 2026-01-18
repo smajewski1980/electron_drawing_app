@@ -15,8 +15,10 @@
   <body>
     <div class="tool-options">
       <p>Tool Options:</p>
-      <p>placeholder option 1</p>
-      <p>placeholder option 2</p>
+      <div id="options-wrapper">
+        <p>placeholder option 1</p>
+        <p>placeholder option 2</p>
+      </div>
     </div>
     <div id="controls">
       <p>Let's Draw</p>
@@ -40,22 +42,7 @@
           />
         </div>
       </div>
-      <div class="control-group">
-        <label
-          id="stroke-label"
-          for="stroke"
-          >brush width:</label
-        >
-        <input
-          type="range"
-          name="stroke"
-          id="stroke"
-          min="1"
-          max="10"
-          step="2"
-          value="1"
-        />
-      </div>
+
       <button id="brush-btn">
         <img
           src="./assets/brush-32.png"

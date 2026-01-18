@@ -2,7 +2,7 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const colorInput = document.getElementById("color-input");
 const bgColorInput = document.getElementById("bg-color-input");
-const strokeInput = document.getElementById("stroke");
+// const strokeInput = document.getElementById("stroke");
 const brushBtn = document.getElementById("brush-btn");
 const cloneBtn = document.getElementById("clone-btn");
 const eraserBtn = document.getElementById("eraser-btn");
@@ -11,9 +11,10 @@ const saveBtn = document.getElementById("save-btn");
 const eraserCheckBox = document.getElementById("eraser");
 const loadImgInput = document.getElementById("load-img-input");
 const toolOptionsDiv = document.querySelector(".tool-options");
+const toolOptionsWrapper = document.getElementById("options-wrapper");
 let isDrawing = false;
 let pickedColor;
-let strokeWidth = 1;
+let strokeWidth = 2;
 let x;
 let y;
 let tool = "brush";
@@ -38,13 +39,56 @@ function handleToolOptions() {
   if (showToolOptions) {
     document.startViewTransition(() => {
       toolOptionsDiv.style.top = "1rem";
+      switch (tool) {
+        case "brush":
+          loadBrushOptions();
+          break;
+        case "clone":
+          loadCloneOptions();
+          break;
+        default:
+          break;
+      }
     });
-    // toolOptionsDiv.classList.add("displaying");
   } else {
     document.startViewTransition(() => {
       toolOptionsDiv.style.top = "-100%";
     });
   }
+}
+
+function loadBrushOptions() {
+  toolOptionsWrapper.innerHTML = "";
+
+  const ctrlGrpDiv = document.createElement("div");
+  ctrlGrpDiv.classList.add("control-group");
+
+  const label = document.createElement("label");
+  label.id = "stroke-label";
+  label.htmlFor = "stroke";
+  label.textContent = "brush width";
+
+  const input = document.createElement("input");
+  input.type = "range";
+  input.name = "stroke";
+  input.id = "stroke";
+  input.min = "2";
+  input.max = "16";
+  input.step = "2";
+  input.value = strokeWidth;
+
+  ctrlGrpDiv.appendChild(label);
+  ctrlGrpDiv.appendChild(input);
+  toolOptionsWrapper.appendChild(ctrlGrpDiv);
+
+  input.addEventListener("change", (e) => {
+    strokeWidth = Number(e.target.value);
+  });
+}
+
+function loadCloneOptions() {
+  toolOptionsWrapper.innerHTML = "";
+  toolOptionsWrapper.textContent = "here will go some options";
 }
 
 /**
@@ -259,9 +303,9 @@ colorInput.addEventListener("change", (e) => {
   pickedColor = e.target.value;
 });
 
-strokeInput.addEventListener("change", (e) => {
-  strokeWidth = Number(e.target.value);
-});
+// strokeInput.addEventListener("change", (e) => {
+//   strokeWidth = Number(e.target.value);
+// });
 
 clearBtn.addEventListener("click", (e) => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -321,7 +365,7 @@ brushBtn.addEventListener("click", () => {
   tool = "brush";
   setCursor(tool);
   reenableFgColor();
-  showToolOptions = false;
+  showToolOptions = true;
   handleToolOptions();
 });
 
