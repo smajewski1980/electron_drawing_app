@@ -16,6 +16,7 @@ let strokeWidth = 1;
 let x;
 let y;
 let tool = "brush";
+let cloneImage = undefined;
 let undoStack = [];
 let redoStack = [];
 ctx.imageSmoothingEnabled = false;
@@ -188,6 +189,16 @@ canvas.addEventListener("mousedown", (e) => {
   x = Math.floor(e.offsetX);
   y = Math.floor(e.offsetY);
   isDrawing = true;
+
+  if (tool === "clone" && !isCanvasBlank(canvas)) {
+    if (!cloneImage) {
+      // set clone image
+      cloneImage = ctx.getImageData(x - 18, y - 18, 36, 36);
+    } else {
+      // apply image to canvas
+      ctx.putImageData(cloneImage, x - 18, y - 18);
+    }
+  }
 });
 
 // if mouse leaves the canvas lift the pen
@@ -248,6 +259,7 @@ clearBtn.addEventListener("click", (e) => {
   tool = "brush";
   setCursor(tool);
   reenableFgColor();
+  cloneImage = undefined;
 });
 
 saveBtn.addEventListener("click", (e) => {
