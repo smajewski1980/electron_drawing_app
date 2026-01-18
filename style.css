@@ -64,24 +64,24 @@ body.clone {
     cursor: pointer;
   }
 
-  #save-btn {
+  #brush-btn {
     background: none;
     padding: 0;
     border: none;
     position: relative;
 
     img {
-      max-width: 2.5rem;
+      max-width: 1.5rem;
     }
 
-    &::after {
-      content: "save";
+    /* &::after {
+      content: "brush";
       position: absolute;
-      bottom: 0.25rem;
+      top: 0;
       left: 50%;
       transform: translateX(-50%);
       color: limegreen;
-    }
+    } */
   }
 
   #clone-btn {
@@ -91,36 +91,28 @@ body.clone {
     position: relative;
 
     img {
-      max-width: 2.25rem;
+      max-width: 1.5rem;
     }
 
-    &::after {
+    /* &::after {
       content: "clone";
       position: absolute;
       top: 0.25rem;
       left: 50%;
       transform: translateX(-50%);
       color: limegreen;
-    }
+    } */
   }
 
-  #brush-btn {
+  #eraser-btn {
+    cursor: pointer;
     background: none;
     padding: 0;
     border: none;
-    position: relative;
 
     img {
-      max-width: 2.5rem;
-    }
-
-    &::after {
-      content: "brush";
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      color: limegreen;
+      transform: translateX(-0.25rem);
+      max-width: 1.5rem;
     }
   }
 
@@ -131,10 +123,9 @@ body.clone {
     position: relative;
 
     img {
-      max-width: 3rem;
-      filter: brightness(0.75);
+      max-width: 1.5rem;
     }
-    &::after {
+    /* &::after {
       content: "start\Aover";
       line-height: 1;
       position: absolute;
@@ -142,28 +133,21 @@ body.clone {
       left: 50%;
       transform: translateX(-50%);
       color: hsl(120, 61%, 60%);
+    } */
+  }
+
+  .control-group:has(#load-img-input) {
+    /* position: relative; */
+
+    label {
+      cursor: pointer;
     }
-  }
-}
 
-.control-group:not(#eraser) {
-  display: grid;
-  justify-items: center;
-}
+    img {
+      max-width: 2rem;
+    }
 
-.control-group:has(#load-img-input) {
-  position: relative;
-
-  label {
-    cursor: pointer;
-  }
-
-  img {
-    max-width: 3.25rem;
-    filter: brightness(0.6);
-  }
-
-  &::after {
+    /* &::after {
     content: "open";
     cursor: pointer;
     position: absolute;
@@ -171,20 +155,33 @@ body.clone {
     left: 50%;
     transform: translateX(-50%);
     color: limegreen;
+  } */
+  }
+
+  #save-btn {
+    background: none;
+    padding: 0;
+    border: none;
+    position: relative;
+
+    img {
+      max-width: 2rem;
+    }
+
+    /* &::after {
+      content: "save";
+      position: absolute;
+      bottom: 0.25rem;
+      left: 50%;
+      transform: translateX(-50%);
+      color: limegreen;
+    } */
   }
 }
 
-.control-group:has(#eraser) {
-  cursor: pointer;
-}
-#eraser-btn {
-  background: none;
-  padding: 0;
-  border: none;
-
-  img {
-    transform: translateX(-0.25rem);
-  }
+.control-group:not(#eraser) {
+  display: grid;
+  justify-items: center;
 }
 
 .color-control-group {

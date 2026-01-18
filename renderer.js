@@ -218,6 +218,9 @@ clearBtn.addEventListener("click", (e) => {
   bgColorInput.value = "#202020";
   colorInput.value = "#ffffff";
   pickedColor = "#ffffff";
+  tool = "brush";
+  setCursor(tool);
+  reenableFgColor();
 });
 
 saveBtn.addEventListener("click", (e) => {
@@ -290,6 +293,7 @@ cloneBtn.addEventListener("click", () => {
   setCursor(tool);
   disableFgColor();
 });
+
 eraserBtn.addEventListener("click", () => {
   tool = "eraser";
   setCursor(tool);
