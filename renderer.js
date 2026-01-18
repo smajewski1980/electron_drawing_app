@@ -31,11 +31,38 @@ function saveState() {
   undoStack.push(dataUrl);
 }
 
+/**
+ *
+ * @param {string} str
+ * @returns {void}
+ */
 function setCursor(str) {
   document.body.className = "";
   document.body.classList.add(str);
 }
 setCursor(tool);
+
+/**
+ * disables the fg color picker
+ */
+function disableFgColor() {
+  const label = colorInput.labels[0];
+  label.inert = true;
+  label.style.opacity = 0.4;
+  colorInput.inert = true;
+  colorInput.style.opacity = 0.4;
+}
+
+/**
+ * reenables the fg color picker
+ */
+function reenableFgColor() {
+  const label = colorInput.labels[0];
+  colorInput.inert = false;
+  label.inert = false;
+  colorInput.style.opacity = 1;
+  label.style.opacity = 1;
+}
 
 /**
  * Handles the undo action
@@ -248,25 +275,6 @@ function saveCanvas() {
   }, "image/png");
 }
 
-// eraserCheckBox.addEventListener("change", (e) => {
-//   const label = colorInput.labels[0];
-//     label.inert = true;
-//     label.style.opacity = 0.4;
-//     colorInput.inert = true;
-//     colorInput.style.opacity = 0.4;
-//   if (e.target.checked) {
-//     tool = "eraser";
-//     canvas.classList.add("eraser");
-//   } else {
-//     tool = "brush";
-//     colorInput.inert = false;
-//     label.inert = false;
-//     colorInput.style.opacity = 1;
-//     label.style.opacity = 1;
-//     canvas.classList.remove("eraser");
-//   }
-// });
-
 document.addEventListener("keydown", (e) => {
   if (e.ctrlKey && e.key === "z") {
     undo();
@@ -299,19 +307,3 @@ eraserBtn.addEventListener("click", () => {
   setCursor(tool);
   disableFgColor();
 });
-
-function disableFgColor() {
-  const label = colorInput.labels[0];
-  label.inert = true;
-  label.style.opacity = 0.4;
-  colorInput.inert = true;
-  colorInput.style.opacity = 0.4;
-}
-
-function reenableFgColor() {
-  const label = colorInput.labels[0];
-  colorInput.inert = false;
-  label.inert = false;
-  colorInput.style.opacity = 1;
-  label.style.opacity = 1;
-}
