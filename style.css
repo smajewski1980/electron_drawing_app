@@ -20,6 +20,7 @@ body {
   margin-inline-start: 15%;
   anchor-name: --canvas;
   background-color: #202020;
+  isolation: isolate;
 }
 
 h1 {
@@ -43,12 +44,14 @@ body.clone {
 
 .tool-options {
   position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   top: -100%;
   left: 1rem;
   outline: 2px solid limegreen;
   background-color: rgba(4, 53, 4, 0.9);
   padding: 1rem;
-  z-index: -1;
   transition: top 1s ease;
   position-anchor: --canvas;
   position-area: bottom center;
