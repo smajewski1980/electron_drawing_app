@@ -89,18 +89,36 @@ function loadBrushOptions() {
 function loadCloneOptions() {
   toolOptionsWrapper.innerHTML = "";
 
+  const canv = document.createElement("canvas");
+  canv.width = 30;
+  canv.height = 30;
+  canv.style.outline = "1px solid limegreen";
+
+  if (cloneImage) {
+    const ctx2 = canv.getContext("2d");
+    ctx2.clearRect(0, 0, 30, 30);
+    ctx2.putImageData(cloneImage, 0, 0);
+  }
+
   const msg = document.createElement("p");
   msg.textContent = "placeholder-stamp size adj";
+
+  const group = document.createElement("div");
+  group.className = "control-group";
+  group.id = "clone-group-one";
 
   const btn = document.createElement("button");
   btn.textContent = "clear clone image";
   btn.id = "clear-clone-btn";
-
-  toolOptionsWrapper.appendChild(btn);
+  group.appendChild(canv);
+  group.appendChild(btn);
+  // toolOptionsWrapper.appendChild(canv);
+  toolOptionsWrapper.appendChild(group);
   toolOptionsWrapper.appendChild(msg);
 
   btn.addEventListener("click", () => {
     cloneImage = undefined;
+    loadCloneOptions();
   });
 }
 
@@ -266,6 +284,7 @@ canvas.addEventListener("mousedown", (e) => {
     if (!cloneImage) {
       // set clone image
       cloneImage = ctx.getImageData(x - 18, y - 18, 36, 36);
+      loadCloneOptions();
     } else {
       // apply image to canvas
       ctx.putImageData(cloneImage, x - 18, y - 18);
