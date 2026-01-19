@@ -18,6 +18,15 @@ body {
   width: 80%;
   outline: 1px solid limegreen;
   margin-inline-start: 15%;
+  anchor-name: --canvas;
+  background-color: #202020;
+}
+
+h1 {
+  position: absolute;
+  position-anchor: --canvas;
+  position-area: top center;
+  margin-block-end: 1rem;
 }
 
 body.brush {
@@ -39,12 +48,10 @@ body.clone {
   outline: 2px solid limegreen;
   background-color: rgba(4, 53, 4, 0.9);
   padding: 1rem;
-  z-index: 999;
+  z-index: -1;
   transition: top 1s ease;
-
-  p:first-child {
-    margin-block-end: 1rem;
-  }
+  position-anchor: --canvas;
+  position-area: bottom center;
 
   #clear-clone-btn {
     padding: 0.25rem 0.5rem;
