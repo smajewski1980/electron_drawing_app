@@ -19,6 +19,7 @@ let x;
 let y;
 let tool = "brush";
 let cloneImage = undefined;
+let cloneSize = 20;
 let undoStack = [];
 let redoStack = [];
 let showToolOptions = false;
@@ -100,21 +101,37 @@ function loadCloneOptions() {
     ctx2.putImageData(cloneImage, 0, 0);
   }
 
-  const msg = document.createElement("p");
-  msg.textContent = "placeholder-stamp size adj";
-
   const group = document.createElement("div");
   group.className = "control-group";
   group.id = "clone-group-one";
+
+  const groupSizeAdj = document.createElement("div");
+  groupSizeAdj.className = "control-group";
+  groupSizeAdj.id = "clone-group-size-adj";
+
+  const labelSzAdj = document.createElement("label");
+  labelSzAdj.htmlFor = "clone-size-adj";
+  labelSzAdj.textContent = "stamp size";
+
+  const inputSzAdj = document.createElement("input");
+  inputSzAdj.type = "range";
+  inputSzAdj.name = "clone-size-adj";
+  inputSzAdj.id = "clone-size-adj";
+  inputSzAdj.min = "2";
+  inputSzAdj.max = "40";
+  inputSzAdj.step = "2";
+  inputSzAdj.value = cloneSize;
+
+  groupSizeAdj.appendChild(labelSzAdj);
+  groupSizeAdj.appendChild(inputSzAdj);
 
   const btn = document.createElement("button");
   btn.textContent = "clear clone image";
   btn.id = "clear-clone-btn";
   group.appendChild(canv);
   group.appendChild(btn);
-  // toolOptionsWrapper.appendChild(canv);
   toolOptionsWrapper.appendChild(group);
-  toolOptionsWrapper.appendChild(msg);
+  toolOptionsWrapper.appendChild(groupSizeAdj);
 
   btn.addEventListener("click", () => {
     cloneImage = undefined;
