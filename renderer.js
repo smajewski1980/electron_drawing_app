@@ -88,7 +88,20 @@ function loadBrushOptions() {
 
 function loadCloneOptions() {
   toolOptionsWrapper.innerHTML = "";
-  toolOptionsWrapper.textContent = "here will go some options";
+
+  const msg = document.createElement("p");
+  msg.textContent = "placeholder-stamp size adj";
+
+  const btn = document.createElement("button");
+  btn.textContent = "clear clone image";
+  btn.id = "clear-clone-btn";
+
+  toolOptionsWrapper.appendChild(btn);
+  toolOptionsWrapper.appendChild(msg);
+
+  btn.addEventListener("click", () => {
+    cloneImage = undefined;
+  });
 }
 
 /**
@@ -319,6 +332,8 @@ clearBtn.addEventListener("click", (e) => {
   setCursor(tool);
   reenableFgColor();
   cloneImage = undefined;
+  showToolOptions = false;
+  handleToolOptions();
 });
 
 saveBtn.addEventListener("click", (e) => {
