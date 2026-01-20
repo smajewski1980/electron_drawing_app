@@ -10,6 +10,7 @@ body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   padding: 1rem 1rem 1rem 10%;
+  min-height: 100dvh;
 }
 
 #canvas {
@@ -32,21 +33,21 @@ h1 {
 }
 
 body.brush {
-  cursor: url("assets/brush-32.png") 0 32, crosshair;
+  cursor: url("assets/brush-32.png") 0 32, auto;
 }
 
 body.eraser {
-  cursor: url("assets/eraser-32.png") 0 16, crosshair;
+  cursor: url("assets/eraser-32.png") 0 16, auto;
 }
 
 body.clone {
-  cursor: url("assets/clone-20.png") 16 32, crosshair;
+  cursor: url("assets/clone-20.png") 16 32, auto;
 }
 body.clone-sm {
-  cursor: url("assets/clone-10.png") 16 32, crosshair;
+  cursor: url("assets/clone-10.png") 16 32, auto;
 }
 body.clone-lg {
-  cursor: url("assets/clone-30.png") 16 32, crosshair;
+  cursor: url("assets/clone-30.png") 16 32, auto;
 }
 
 .tool-options {
@@ -132,15 +133,6 @@ body.clone-lg {
       max-width: 1.5rem;
       cursor: pointer;
     }
-
-    /* &::after {
-      content: "brush";
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      color: limegreen;
-    } */
   }
 
   #clone-btn {
@@ -153,15 +145,6 @@ body.clone-lg {
       max-width: 1.5rem;
       cursor: pointer;
     }
-
-    /* &::after {
-      content: "clone";
-      position: absolute;
-      top: 0.25rem;
-      left: 50%;
-      transform: translateX(-50%);
-      color: limegreen;
-    } */
   }
 
   #eraser-btn {
@@ -186,15 +169,6 @@ body.clone-lg {
       max-width: 1.5rem;
       cursor: pointer;
     }
-    /* &::after {
-      content: "start\Aover";
-      line-height: 1;
-      position: absolute;
-      bottom: 0.5rem;
-      left: 50%;
-      transform: translateX(-50%);
-      color: hsl(120, 61%, 60%);
-    } */
   }
 
   .control-group:has(#load-img-input) {
@@ -207,16 +181,6 @@ body.clone-lg {
     img {
       max-width: 2rem;
     }
-
-    /* &::after {
-    content: "open";
-    cursor: pointer;
-    position: absolute;
-    bottom: 25%;
-    left: 50%;
-    transform: translateX(-50%);
-    color: limegreen;
-  } */
   }
 
   #save-btn {
@@ -229,15 +193,6 @@ body.clone-lg {
       max-width: 2rem;
       cursor: pointer;
     }
-
-    /* &::after {
-      content: "save";
-      position: absolute;
-      bottom: 0.25rem;
-      left: 50%;
-      transform: translateX(-50%);
-      color: limegreen;
-    } */
   }
 }
 
@@ -260,32 +215,9 @@ body.clone-lg {
 }
 
 #stroke {
-  height: 50px;
-  writing-mode: vertical-rl;
-  rotate: 180deg;
-}
+  width: 85px;
 
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  border: 1px solid #000000;
-  font-size: 2rem;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-#stroke-label {
-  position: relative;
-
-  &::after {
-    content: "min";
-    position: absolute;
-    top: 50px;
-    left: 0;
-  }
-  &::before {
-    content: "max";
-    position: absolute;
-    top: 20px;
-    right: 0;
+  label {
+    margin-block-end: 0.5rem;
   }
 }
