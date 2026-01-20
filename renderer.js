@@ -1,4 +1,4 @@
-import { loadBrushOptions } from "./tool-scripts.js";
+import { loadBrushOptions, loadCloneOptions } from "./tool-scripts.js";
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -51,7 +51,13 @@ function handleToolOptions() {
           );
           break;
         case "clone":
-          loadCloneOptions();
+          loadCloneOptions(
+            toolOptionsWrapper,
+            cloneImage,
+            cloneSize,
+            (newCloneImg) => (cloneImage = newCloneImg),
+            (newCloneSize) => (cloneSize = newCloneSize),
+          );
           break;
         default:
           break;
@@ -93,83 +99,83 @@ function handleToolOptions() {
 //   });
 // }
 
-function loadCloneOptions() {
-  toolOptionsWrapper.innerHTML = "";
+// function loadCloneOptions() {
+//   toolOptionsWrapper.innerHTML = "";
 
-  const canv = document.createElement("canvas");
-  canv.width = 30;
-  canv.height = 30;
-  canv.style.outline = "1px solid limegreen";
+//   const canv = document.createElement("canvas");
+//   canv.width = 30;
+//   canv.height = 30;
+//   canv.style.outline = "1px solid limegreen";
 
-  if (cloneImage) {
-    const ctx2 = canv.getContext("2d");
-    ctx2.clearRect(0, 0, 30, 30);
-    if (cloneImage.width > 20) {
-      ctx2.putImageData(cloneImage, 0, 0);
-    } else if (cloneImage.width > 10) {
-      ctx2.putImageData(cloneImage, 5, 5);
-    } else {
-      ctx2.putImageData(cloneImage, 10, 10);
-    }
-  }
+//   if (cloneImage) {
+//     const ctx2 = canv.getContext("2d");
+//     ctx2.clearRect(0, 0, 30, 30);
+//     if (cloneImage.width > 20) {
+//       ctx2.putImageData(cloneImage, 0, 0);
+//     } else if (cloneImage.width > 10) {
+//       ctx2.putImageData(cloneImage, 5, 5);
+//     } else {
+//       ctx2.putImageData(cloneImage, 10, 10);
+//     }
+//   }
 
-  const group = document.createElement("div");
-  group.className = "control-group";
-  group.id = "clone-group-one";
+//   const group = document.createElement("div");
+//   group.className = "control-group";
+//   group.id = "clone-group-one";
 
-  const groupSizeAdj = document.createElement("div");
-  groupSizeAdj.className = "control-group";
-  groupSizeAdj.id = "clone-group-size-adj";
+//   const groupSizeAdj = document.createElement("div");
+//   groupSizeAdj.className = "control-group";
+//   groupSizeAdj.id = "clone-group-size-adj";
 
-  const labelSzAdj = document.createElement("label");
-  labelSzAdj.htmlFor = "clone-size-adj";
-  labelSzAdj.textContent = "clone size";
+//   const labelSzAdj = document.createElement("label");
+//   labelSzAdj.htmlFor = "clone-size-adj";
+//   labelSzAdj.textContent = "clone size";
 
-  const inputSzAdj = document.createElement("input");
-  inputSzAdj.type = "range";
-  inputSzAdj.name = "clone-size-adj";
-  inputSzAdj.id = "clone-size-adj";
-  inputSzAdj.min = "10";
-  inputSzAdj.max = "30";
-  inputSzAdj.step = "10";
-  inputSzAdj.value = cloneSize;
+//   const inputSzAdj = document.createElement("input");
+//   inputSzAdj.type = "range";
+//   inputSzAdj.name = "clone-size-adj";
+//   inputSzAdj.id = "clone-size-adj";
+//   inputSzAdj.min = "10";
+//   inputSzAdj.max = "30";
+//   inputSzAdj.step = "10";
+//   inputSzAdj.value = cloneSize;
 
-  groupSizeAdj.appendChild(labelSzAdj);
-  groupSizeAdj.appendChild(inputSzAdj);
+//   groupSizeAdj.appendChild(labelSzAdj);
+//   groupSizeAdj.appendChild(inputSzAdj);
 
-  const btn = document.createElement("button");
-  btn.textContent = "clear clone image";
-  btn.id = "clear-clone-btn";
-  group.appendChild(canv);
-  group.appendChild(btn);
-  toolOptionsWrapper.appendChild(group);
-  toolOptionsWrapper.appendChild(groupSizeAdj);
+//   const btn = document.createElement("button");
+//   btn.textContent = "clear clone image";
+//   btn.id = "clear-clone-btn";
+//   group.appendChild(canv);
+//   group.appendChild(btn);
+//   toolOptionsWrapper.appendChild(group);
+//   toolOptionsWrapper.appendChild(groupSizeAdj);
 
-  btn.addEventListener("click", () => {
-    cloneImage = undefined;
-    loadCloneOptions();
-  });
+//   btn.addEventListener("click", () => {
+//     cloneImage = undefined;
+//     loadCloneOptions();
+//   });
 
-  inputSzAdj.addEventListener("change", (e) => {
-    cloneSize = e.target.value;
-    switch (cloneSize) {
-      case "10":
-        document.body.className = "";
-        document.body.classList.add("clone-sm");
-        break;
-      case "20":
-        document.body.className = "";
-        document.body.classList.add("clone");
-        break;
-      case "30":
-        document.body.className = "";
-        document.body.classList.add("clone-lg");
-        break;
-      default:
-        break;
-    }
-  });
-}
+//   inputSzAdj.addEventListener("change", (e) => {
+//     cloneSize = e.target.value;
+//     switch (cloneSize) {
+//       case "10":
+//         document.body.className = "";
+//         document.body.classList.add("clone-sm");
+//         break;
+//       case "20":
+//         document.body.className = "";
+//         document.body.classList.add("clone");
+//         break;
+//       case "30":
+//         document.body.className = "";
+//         document.body.classList.add("clone-lg");
+//         break;
+//       default:
+//         break;
+//     }
+//   });
+// }
 
 /**
  *
@@ -354,7 +360,13 @@ canvas.addEventListener("mousedown", (e) => {
         parseInt(cloneSize),
         parseInt(cloneSize),
       );
-      loadCloneOptions();
+      loadCloneOptions(
+        toolOptionsWrapper,
+        cloneImage,
+        cloneSize,
+        (newCloneImg) => (cloneImage = newCloneImg),
+        (newCloneSize) => (cloneSize = newCloneSize),
+      );
     } else {
       // apply image to canvas
       ctx.putImageData(
