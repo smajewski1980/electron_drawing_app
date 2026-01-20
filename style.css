@@ -39,7 +39,13 @@ body.eraser {
 }
 
 body.clone {
-  cursor: url("assets/clone-32.png") 16 32, crosshair;
+  cursor: url("assets/clone-20.png") 16 32, crosshair;
+}
+body.clone-sm {
+  cursor: url("assets/clone-10.png") 16 32, crosshair;
+}
+body.clone-lg {
+  cursor: url("assets/clone-30.png") 16 32, crosshair;
 }
 
 .tool-options {

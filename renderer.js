@@ -19,7 +19,7 @@ let x;
 let y;
 let tool = "brush";
 let cloneImage = undefined;
-let cloneSize = 20;
+let cloneSize = "20";
 let undoStack = [];
 let redoStack = [];
 let showToolOptions = false;
@@ -98,7 +98,13 @@ function loadCloneOptions() {
   if (cloneImage) {
     const ctx2 = canv.getContext("2d");
     ctx2.clearRect(0, 0, 30, 30);
-    ctx2.putImageData(cloneImage, 0, 0);
+    if (cloneImage.width > 20) {
+      ctx2.putImageData(cloneImage, 0, 0);
+    } else if (cloneImage.width > 10) {
+      ctx2.putImageData(cloneImage, 5, 5);
+    } else {
+      ctx2.putImageData(cloneImage, 10, 10);
+    }
   }
 
   const group = document.createElement("div");
@@ -111,15 +117,15 @@ function loadCloneOptions() {
 
   const labelSzAdj = document.createElement("label");
   labelSzAdj.htmlFor = "clone-size-adj";
-  labelSzAdj.textContent = "stamp size";
+  labelSzAdj.textContent = "clone size";
 
   const inputSzAdj = document.createElement("input");
   inputSzAdj.type = "range";
   inputSzAdj.name = "clone-size-adj";
   inputSzAdj.id = "clone-size-adj";
-  inputSzAdj.min = "2";
-  inputSzAdj.max = "40";
-  inputSzAdj.step = "2";
+  inputSzAdj.min = "10";
+  inputSzAdj.max = "30";
+  inputSzAdj.step = "10";
   inputSzAdj.value = cloneSize;
 
   groupSizeAdj.appendChild(labelSzAdj);
@@ -136,6 +142,26 @@ function loadCloneOptions() {
   btn.addEventListener("click", () => {
     cloneImage = undefined;
     loadCloneOptions();
+  });
+
+  inputSzAdj.addEventListener("change", (e) => {
+    cloneSize = e.target.value;
+    switch (cloneSize) {
+      case "10":
+        document.body.className = "";
+        document.body.classList.add("clone-sm");
+        break;
+      case "20":
+        document.body.className = "";
+        document.body.classList.add("clone");
+        break;
+      case "30":
+        document.body.className = "";
+        document.body.classList.add("clone-lg");
+        break;
+      default:
+        break;
+    }
   });
 }
 
@@ -300,11 +326,20 @@ canvas.addEventListener("mousedown", (e) => {
   if (tool === "clone" && !isCanvasBlank(canvas)) {
     if (!cloneImage) {
       // set clone image
-      cloneImage = ctx.getImageData(x - 18, y - 18, 36, 36);
+      cloneImage = ctx.getImageData(
+        x - parseInt(cloneSize) / 2,
+        y - parseInt(cloneSize) / 2,
+        parseInt(cloneSize),
+        parseInt(cloneSize),
+      );
       loadCloneOptions();
     } else {
       // apply image to canvas
-      ctx.putImageData(cloneImage, x - 18, y - 18);
+      ctx.putImageData(
+        cloneImage,
+        x - parseInt(cloneSize) / 2,
+        y - parseInt(cloneSize) / 2,
+      );
     }
   }
 });
@@ -422,6 +457,8 @@ brushBtn.addEventListener("click", () => {
 
 cloneBtn.addEventListener("click", () => {
   tool = "clone";
+  cloneSize = "20";
+  cloneImage = undefined;
   setCursor(tool);
   disableFgColor();
   showToolOptions = true;
