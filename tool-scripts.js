@@ -1,3 +1,10 @@
+/**
+ * Clear the toolOptionWrapper and load it with the brush options,
+ * send the new strokewidth back through a cb when the input val changes
+ * @param {HTMLElement} toolOptionsWrapper
+ * @param {number} strokeWidth
+ * @param {function} setStrokeWidth
+ */
 export function loadBrushOptions(
   toolOptionsWrapper,
   strokeWidth,
