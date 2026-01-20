@@ -1,3 +1,5 @@
+import { loadBrushOptions } from "./tool-scripts.js";
+
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const colorInput = document.getElementById("color-input");
@@ -42,7 +44,11 @@ function handleToolOptions() {
       toolOptionsDiv.style.top = "1rem";
       switch (tool) {
         case "brush":
-          loadBrushOptions();
+          loadBrushOptions(
+            toolOptionsWrapper,
+            strokeWidth,
+            (newStrokeWidth) => (strokeWidth = newStrokeWidth),
+          );
           break;
         case "clone":
           loadCloneOptions();
@@ -58,34 +64,34 @@ function handleToolOptions() {
   }
 }
 
-function loadBrushOptions() {
-  toolOptionsWrapper.innerHTML = "";
+// function loadBrushOptions() {
+//   toolOptionsWrapper.innerHTML = "";
 
-  const ctrlGrpDiv = document.createElement("div");
-  ctrlGrpDiv.classList.add("control-group");
+//   const ctrlGrpDiv = document.createElement("div");
+//   ctrlGrpDiv.classList.add("control-group");
 
-  const label = document.createElement("label");
-  label.id = "stroke-label";
-  label.htmlFor = "stroke";
-  label.textContent = "brush width";
+//   const label = document.createElement("label");
+//   label.id = "stroke-label";
+//   label.htmlFor = "stroke";
+//   label.textContent = "brush width";
 
-  const input = document.createElement("input");
-  input.type = "range";
-  input.name = "stroke";
-  input.id = "stroke";
-  input.min = "2";
-  input.max = "16";
-  input.step = "2";
-  input.value = strokeWidth;
+//   const input = document.createElement("input");
+//   input.type = "range";
+//   input.name = "stroke";
+//   input.id = "stroke";
+//   input.min = "2";
+//   input.max = "16";
+//   input.step = "2";
+//   input.value = strokeWidth;
 
-  ctrlGrpDiv.appendChild(label);
-  ctrlGrpDiv.appendChild(input);
-  toolOptionsWrapper.appendChild(ctrlGrpDiv);
+//   ctrlGrpDiv.appendChild(label);
+//   ctrlGrpDiv.appendChild(input);
+//   toolOptionsWrapper.appendChild(ctrlGrpDiv);
 
-  input.addEventListener("change", (e) => {
-    strokeWidth = Number(e.target.value);
-  });
-}
+//   input.addEventListener("change", (e) => {
+//     strokeWidth = Number(e.target.value);
+//   });
+// }
 
 function loadCloneOptions() {
   toolOptionsWrapper.innerHTML = "";
@@ -317,6 +323,22 @@ const resizeObserver = new ResizeObserver((entries) => {
 
 resizeObserver.observe(canvas);
 
+/**
+ * Saves the current canvas to a file
+ * @returns {void}
+ */
+function saveCanvas() {
+  canvas.toBlob(async (data) => {
+    const arrBuff = await data.arrayBuffer();
+    const response = await window.saveImage.saveImage("saveImage", arrBuff);
+    if (!response) {
+      console.log("save dialog was closed");
+      return;
+    }
+    console.log(await response);
+  }, "image/png");
+}
+
 // capture the point where the cursor touches the canvas
 canvas.addEventListener("mousedown", (e) => {
   x = Math.floor(e.offsetX);
@@ -415,22 +437,6 @@ bgColorInput.addEventListener("change", (e) => {
   const newBgColor = e.target.value;
   canvas.style.backgroundColor = newBgColor;
 });
-
-/**
- * Saves the current canvas to a file
- * @returns {void}
- */
-function saveCanvas() {
-  canvas.toBlob(async (data) => {
-    const arrBuff = await data.arrayBuffer();
-    const response = await window.saveImage.saveImage("saveImage", arrBuff);
-    if (!response) {
-      console.log("save dialog was closed");
-      return;
-    }
-    console.log(await response);
-  }, "image/png");
-}
 
 document.addEventListener("keydown", (e) => {
   if (e.ctrlKey && e.key === "z") {
