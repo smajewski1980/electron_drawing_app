@@ -38,7 +38,15 @@ export function loadBrushOptions(
   });
 }
 
-// do the JSDoc for this func
+/**
+ * Clear the toolOptionWrapper and load it with clone options,
+ * send the clone image and clone size back through callbacks
+ * @param {HTMLElement} toolOptionsWrapper
+ * @param {ImageData} cloneImage
+ * @param {number} cloneSize
+ * @param {function} setCloneImage
+ * @param {function} setCloneSize
+ */
 export function loadCloneOptions(
   toolOptionsWrapper,
   cloneImage,
@@ -129,4 +137,13 @@ export function loadCloneOptions(
         break;
     }
   });
+}
+
+/**
+ *
+ * @param {string} tool
+ */
+export function setCursor(tool) {
+  document.body.className = "";
+  document.body.classList.add(tool);
 }
