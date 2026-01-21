@@ -1,8 +1,10 @@
-import {
-  loadBrushOptions,
-  loadCloneOptions,
-  setCursor,
-} from "./tool-scripts.js";
+// import {
+//   loadBrushOptions,
+//   loadCloneOptions,
+//   setCursor,
+// } from "./tool-scripts.js";
+
+import toolFuncs from "./tool-scripts.js";
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -46,14 +48,14 @@ function handleToolOptions() {
       toolOptionsDiv.style.top = "1rem";
       switch (tool) {
         case "brush":
-          loadBrushOptions(
+          toolFuncs.loadBrushOptions(
             toolOptionsWrapper,
             strokeWidth,
             (newStrokeWidth) => (strokeWidth = newStrokeWidth),
           );
           break;
         case "clone":
-          loadCloneOptions(
+          toolFuncs.loadCloneOptions(
             toolOptionsWrapper,
             cloneImage,
             cloneSize,
@@ -244,7 +246,7 @@ canvas.addEventListener("mousedown", (e) => {
         parseInt(cloneSize),
         parseInt(cloneSize),
       );
-      loadCloneOptions(
+      toolFuncs.loadCloneOptions(
         toolOptionsWrapper,
         cloneImage,
         cloneSize,
@@ -314,7 +316,7 @@ clearBtn.addEventListener("click", (e) => {
   colorInput.value = "#ffffff";
   pickedColor = "#ffffff";
   tool = "brush";
-  setCursor(tool);
+  toolFuncs.setCursor(tool);
   reenableFgColor();
   cloneImage = undefined;
   showToolOptions = false;
@@ -347,7 +349,7 @@ loadImgInput.addEventListener("change", (e) => {
 
 brushBtn.addEventListener("click", () => {
   tool = "brush";
-  setCursor(tool);
+  toolFuncs.setCursor(tool);
   reenableFgColor();
   showToolOptions = true;
   handleToolOptions();
@@ -357,7 +359,7 @@ cloneBtn.addEventListener("click", () => {
   tool = "clone";
   cloneSize = "20";
   cloneImage = undefined;
-  setCursor(tool);
+  toolFuncs.setCursor(tool);
   disableFgColor();
   showToolOptions = true;
   handleToolOptions();
@@ -365,7 +367,7 @@ cloneBtn.addEventListener("click", () => {
 
 eraserBtn.addEventListener("click", () => {
   tool = "eraser";
-  setCursor(tool);
+  toolFuncs.setCursor(tool);
   disableFgColor();
   showToolOptions = false;
   handleToolOptions();
