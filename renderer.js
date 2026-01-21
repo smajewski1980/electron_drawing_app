@@ -1,14 +1,9 @@
-// import {
-//   loadBrushOptions,
-//   loadCloneOptions,
-//   setCursor,
-// } from "./tool-scripts.js";
-
 import toolFuncs from "./tool-scripts.js";
+import utils from "./utils.js";
+import colorFuncs from "./colors.js";
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-const colorInput = document.getElementById("color-input");
 const bgColorInput = document.getElementById("bg-color-input");
 const brushBtn = document.getElementById("brush-btn");
 const cloneBtn = document.getElementById("clone-btn");
@@ -19,7 +14,6 @@ const loadImgInput = document.getElementById("load-img-input");
 const toolOptionsDiv = document.querySelector(".tool-options");
 const toolOptionsWrapper = document.getElementById("options-wrapper");
 let isDrawing = false;
-let pickedColor;
 let strokeWidth = 2;
 let x;
 let y;
@@ -31,7 +25,6 @@ let redoStack = [];
 let showToolOptions = false;
 ctx.imageSmoothingEnabled = false;
 
-// just found out about JSDocs...
 /**
  * Turns the canvas to a data url
  * and pushes it to the undo stack
@@ -72,28 +65,6 @@ function handleToolOptions() {
       toolOptionsDiv.style.top = "-100%";
     });
   }
-}
-
-/**
- * disables the fg color picker
- */
-function disableFgColor() {
-  const label = colorInput.labels[0];
-  label.inert = true;
-  label.style.opacity = 0.4;
-  colorInput.inert = true;
-  colorInput.style.opacity = 0.4;
-}
-
-/**
- * reenables the fg color picker
- */
-function reenableFgColor() {
-  const label = colorInput.labels[0];
-  colorInput.inert = false;
-  label.inert = false;
-  colorInput.style.opacity = 1;
-  label.style.opacity = 1;
 }
 
 /**
@@ -274,7 +245,7 @@ canvas.addEventListener("mouseleave", () => {
 // if the mouse is pressed draw when the mouse moves
 canvas.addEventListener("mousemove", (e) => {
   if (isDrawing && tool === "brush") {
-    ctx.strokeStyle = pickedColor || "white";
+    ctx.strokeStyle = colorFuncs.pickedColor();
     ctx.lineWidth = strokeWidth;
     ctx.beginPath();
     // like picking the pen up and setting it down in a different spot on the paper, moveTo()
@@ -302,22 +273,18 @@ canvas.addEventListener("mouseup", () => {
   redoStack = [];
 });
 
-// listeners for the UI controls
-colorInput.addEventListener("change", (e) => {
-  pickedColor = e.target.value;
-});
-
 clearBtn.addEventListener("click", (e) => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   undoStack = [];
   redoStack = [];
   canvas.style.backgroundColor = "#202020";
   bgColorInput.value = "#202020";
-  colorInput.value = "#ffffff";
-  pickedColor = "#ffffff";
-  tool = "brush";
+  colorFuncs.setColorInputVal("#ffffff");
+  colorFuncs.setPickedColor("#ffffff");
+  tool = "";
+  strokeWidth = "2";
   toolFuncs.setCursor(tool);
-  reenableFgColor();
+  colorFuncs.reenableFgColor();
   cloneImage = undefined;
   showToolOptions = false;
   handleToolOptions();
@@ -350,7 +317,7 @@ loadImgInput.addEventListener("change", (e) => {
 brushBtn.addEventListener("click", () => {
   tool = "brush";
   toolFuncs.setCursor(tool);
-  reenableFgColor();
+  colorFuncs.reenableFgColor();
   showToolOptions = true;
   handleToolOptions();
 });
@@ -360,7 +327,7 @@ cloneBtn.addEventListener("click", () => {
   cloneSize = "20";
   cloneImage = undefined;
   toolFuncs.setCursor(tool);
-  disableFgColor();
+  colorFuncs.disableFgColor();
   showToolOptions = true;
   handleToolOptions();
 });
@@ -368,7 +335,7 @@ cloneBtn.addEventListener("click", () => {
 eraserBtn.addEventListener("click", () => {
   tool = "eraser";
   toolFuncs.setCursor(tool);
-  disableFgColor();
+  colorFuncs.disableFgColor();
   showToolOptions = false;
   handleToolOptions();
 });

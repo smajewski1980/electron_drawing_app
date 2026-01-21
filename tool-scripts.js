@@ -108,7 +108,7 @@ const toolFuncs = {
       const ctx2 = canv.getContext("2d");
       ctx2.clearRect(0, 0, 30, 30);
 
-      loadCloneOptions(
+      toolFuncs.loadCloneOptions(
         toolOptionsWrapper,
         cloneImage,
         cloneSize,
@@ -145,7 +145,9 @@ const toolFuncs = {
    */
   setCursor: (tool) => {
     document.body.className = "";
-    document.body.classList.add(tool);
+    if (tool) {
+      document.body.classList.add(tool);
+    }
   },
 };
 
