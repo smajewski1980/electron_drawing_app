@@ -1,12 +1,13 @@
+const toolOptionsWrapper = document.getElementById("options-wrapper");
+
 const toolFuncs = {
   /**
    * Clear the toolOptionWrapper and load it with the brush options,
    * send the new strokewidth back through a cb when the input val changes
-   * @param {HTMLElement} toolOptionsWrapper
    * @param {number} strokeWidth
    * @param {function} setStrokeWidth
    */
-  loadBrushOptions: (toolOptionsWrapper, strokeWidth, setStrokeWidth) => {
+  loadBrushOptions: (strokeWidth, setStrokeWidth) => {
     toolOptionsWrapper.innerHTML = "";
 
     const ctrlGrpDiv = document.createElement("div");
@@ -38,19 +39,12 @@ const toolFuncs = {
   /**
    * Clear the toolOptionWrapper and load it with clone options,
    * send the clone image and clone size back through callbacks
-   * @param {HTMLElement} toolOptionsWrapper
    * @param {ImageData} cloneImage
    * @param {number} cloneSize
    * @param {function} setCloneImage
    * @param {function} setCloneSize
    */
-  loadCloneOptions: (
-    toolOptionsWrapper,
-    cloneImage,
-    cloneSize,
-    setCloneImage,
-    setCloneSize,
-  ) => {
+  loadCloneOptions: (cloneImage, cloneSize, setCloneImage, setCloneSize) => {
     toolOptionsWrapper.innerHTML = "";
 
     const canv = document.createElement("canvas");
@@ -103,13 +97,17 @@ const toolFuncs = {
     toolOptionsWrapper.appendChild(groupSizeAdj);
 
     btn.addEventListener("click", () => {
+      // i don't like this but it's all I could come up with
+      // to get the preview canvas to clear, without this line
+      // even with the setCloneImage cb, cloneImage retains its val
+      cloneImage = undefined;
+      //
       setCloneImage(undefined);
 
       const ctx2 = canv.getContext("2d");
       ctx2.clearRect(0, 0, 30, 30);
 
       toolFuncs.loadCloneOptions(
-        toolOptionsWrapper,
         cloneImage,
         cloneSize,
         setCloneImage,
@@ -140,7 +138,8 @@ const toolFuncs = {
   },
 
   /**
-   *
+   * this adds a class to the body, to change the cursor icon
+   * to match the tool selected
    * @param {string} tool
    */
   setCursor: (tool) => {

@@ -12,7 +12,6 @@ const clearBtn = document.getElementById("clear-btn");
 const saveBtn = document.getElementById("save-btn");
 const loadImgInput = document.getElementById("load-img-input");
 const toolOptionsDiv = document.querySelector(".tool-options");
-const toolOptionsWrapper = document.getElementById("options-wrapper");
 let isDrawing = false;
 let strokeWidth = 2;
 let x;
@@ -42,14 +41,12 @@ function handleToolOptions() {
       switch (tool) {
         case "brush":
           toolFuncs.loadBrushOptions(
-            toolOptionsWrapper,
             strokeWidth,
             (newStrokeWidth) => (strokeWidth = newStrokeWidth),
           );
           break;
         case "clone":
           toolFuncs.loadCloneOptions(
-            toolOptionsWrapper,
             cloneImage,
             cloneSize,
             (newCloneImg) => (cloneImage = newCloneImg),
@@ -218,7 +215,6 @@ canvas.addEventListener("mousedown", (e) => {
         parseInt(cloneSize),
       );
       toolFuncs.loadCloneOptions(
-        toolOptionsWrapper,
         cloneImage,
         cloneSize,
         (newCloneImg) => (cloneImage = newCloneImg),
