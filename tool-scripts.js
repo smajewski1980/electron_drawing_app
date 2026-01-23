@@ -97,18 +97,13 @@ const toolFuncs = {
     toolOptionsWrapper.appendChild(groupSizeAdj);
 
     btn.addEventListener("click", () => {
-      // i don't like this but it's all I could come up with
-      // to get the preview canvas to clear, without this line
-      // even with the setCloneImage cb, cloneImage retains its val
-      cloneImage = undefined;
-      //
       setCloneImage(undefined);
 
       const ctx2 = canv.getContext("2d");
       ctx2.clearRect(0, 0, 30, 30);
 
       toolFuncs.loadCloneOptions(
-        cloneImage,
+        undefined,
         cloneSize,
         setCloneImage,
         setCloneSize,

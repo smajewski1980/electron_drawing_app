@@ -24,16 +24,6 @@ let redoStack = [];
 let showToolOptions = false;
 ctx.imageSmoothingEnabled = false;
 
-/**
- * Turns the canvas to a data url
- * and pushes it to the undo stack
- * @returns {void}
- */
-function saveState() {
-  const dataUrl = canvas.toDataURL();
-  undoStack.push(dataUrl);
-}
-
 function handleToolOptions() {
   if (showToolOptions) {
     document.startViewTransition(() => {
@@ -61,29 +51,6 @@ function handleToolOptions() {
     document.startViewTransition(() => {
       toolOptionsDiv.style.top = "-100%";
     });
-  }
-}
-
-/**
- * Handles the undo action
- * @returns {void}
- */
-function undo() {
-  if (undoStack.length === 0) return;
-  if (undoStack.length > 1) {
-    const curr = undoStack.pop();
-    redoStack.push(curr);
-    const prevUrl = undoStack[undoStack.length - 1];
-    const img = new Image();
-    img.src = prevUrl;
-    img.onload = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, 0, 0);
-    };
-  } else {
-    const curr = undoStack.pop();
-    redoStack.push(curr);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
 }
 
@@ -265,7 +232,7 @@ canvas.addEventListener("mousemove", (e) => {
 // dont draw after the mouse button is released
 canvas.addEventListener("mouseup", () => {
   isDrawing = false;
-  saveState();
+  utils.saveState(canvas, undoStack);
   redoStack = [];
 });
 
@@ -297,7 +264,7 @@ bgColorInput.addEventListener("change", (e) => {
 
 document.addEventListener("keydown", (e) => {
   if (e.ctrlKey && e.key === "z") {
-    undo();
+    utils.undo(undoStack, redoStack, ctx);
   }
 
   if (e.ctrlKey && e.key === "r") {
