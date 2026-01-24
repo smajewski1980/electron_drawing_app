@@ -35,6 +35,51 @@ const utils = {
       ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     }
   },
+  /**
+   * this handles the ctrl + r redo
+   * @param {array} undoStack
+   * @param {array} redoStack
+   * @param {CanvasRenderingContext2D} ctx
+   * @returns {void}
+   */
+  redo: (undoStack, redoStack, ctx) => {
+    if (redoStack.length > 0) {
+      const curr = redoStack.pop();
+      undoStack.push(curr);
+      const img = new Image();
+      img.src = curr;
+      img.onload = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0);
+      };
+    }
+  },
+  /**
+   * Loads given file onto the canvas,
+   * preserving the images aspect ration.
+   * @param {File} file
+   * @returns {void}
+   */
+  loadImgOnCanvas: (file, ctx) => {
+    if (file && file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+
+      reader.onload = (e) => {
+        const img = new Image();
+        img.src = e.target.result;
+
+        img.onload = (e) => {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          img.width = (img.width / img.height) * canvas.height;
+          img.height = canvas.height;
+          ctx.drawImage(img, 0, 0, img.width, img.height);
+        };
+      };
+    } else {
+      alert("Please select a valid image file.");
+    }
+  },
 };
 
 export default utils;

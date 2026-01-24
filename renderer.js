@@ -55,50 +55,6 @@ function handleToolOptions() {
 }
 
 /**
- * Handles the redo action
- * @returns {void}
- */
-function redo() {
-  if (redoStack.length > 0) {
-    const curr = redoStack.pop();
-    undoStack.push(curr);
-    const img = new Image();
-    img.src = curr;
-    img.onload = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, 0, 0);
-    };
-  }
-}
-
-/**
- * Loads given file onto the canvas,
- * preserving the images aspect ration.
- * @param {file} file
- * @returns {void}
- */
-function loadImgOnCanvas(file) {
-  if (file && file.type.startsWith("image/")) {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-
-    reader.onload = (e) => {
-      const img = new Image();
-      img.src = e.target.result;
-
-      img.onload = (e) => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        img.width = (img.width / img.height) * canvas.height;
-        img.height = canvas.height;
-        ctx.drawImage(img, 0, 0, img.width, img.height);
-      };
-    };
-  } else {
-    alert("Please select a valid image file.");
-  }
-}
-
-/**
  * A function to check if the canvas is blank.
  * @param {canvas} canvas
  * @returns {boolean}
@@ -268,13 +224,13 @@ document.addEventListener("keydown", (e) => {
   }
 
   if (e.ctrlKey && e.key === "r") {
-    redo();
+    utils.redo(undoStack, redoStack, ctx);
   }
 });
 
 loadImgInput.addEventListener("change", (e) => {
   const fileToLoad = e.target.files[0];
-  loadImgOnCanvas(fileToLoad);
+  utils.loadImgOnCanvas(fileToLoad, ctx);
 });
 
 brushBtn.addEventListener("click", () => {
