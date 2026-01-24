@@ -55,19 +55,6 @@ function handleToolOptions() {
 }
 
 /**
- * A function to check if the canvas is blank.
- * @param {canvas} canvas
- * @returns {boolean}
- */
-function isCanvasBlank(canvas) {
-  const blank = document.createElement("canvas");
-  blank.width = canvas.width;
-  blank.height = canvas.height;
-
-  return canvas.toDataURL() === blank.toDataURL();
-}
-
-/**
  * The problem this remedies, may only have been occurring
  * because of the lower resolution of my laptop monitor.
  * @returns {void}
@@ -95,7 +82,7 @@ setupCanvas();
  * resizing will clear the canvas.
  */
 const resizeObserver = new ResizeObserver((entries) => {
-  if (!isCanvasBlank(canvas)) {
+  if (!utils.isCanvasBlank(canvas)) {
     if (confirm("resizing the canvas will erase your gorgeous picture...")) {
       return setupCanvas();
     }
@@ -128,7 +115,7 @@ canvas.addEventListener("mousedown", (e) => {
   y = Math.floor(e.offsetY);
   isDrawing = true;
 
-  if (tool === "clone" && !isCanvasBlank(canvas)) {
+  if (tool === "clone" && !utils.isCanvasBlank(canvas)) {
     if (!cloneImage) {
       // set clone image
       cloneImage = ctx.getImageData(

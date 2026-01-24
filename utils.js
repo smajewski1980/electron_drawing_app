@@ -80,6 +80,18 @@ const utils = {
       alert("Please select a valid image file.");
     }
   },
+  /**
+   * A function to check if the canvas is blank.
+   * @param {canvas} canvas
+   * @returns {boolean}
+   */
+  isCanvasBlank: (canvas) => {
+    const blank = document.createElement("canvas");
+    blank.width = canvas.width;
+    blank.height = canvas.height;
+
+    return canvas.toDataURL() === blank.toDataURL();
+  },
 };
 
 export default utils;
