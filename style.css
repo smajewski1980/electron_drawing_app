@@ -7,8 +7,18 @@
 body {
   background-color: #202020;
   color: limegreen;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Open Sans",
+    "Helvetica Neue",
+    sans-serif;
   padding: 1rem 1rem 1rem 10%;
   min-height: 100dvh;
 }
@@ -33,21 +43,43 @@ h1 {
 }
 
 body.brush {
-  cursor: url("assets/brush-32.png") 0 32, auto;
+  cursor:
+    url("assets/brush-32.png") 0 32,
+    auto;
+}
+
+body.eraser-sm {
+  cursor:
+    url("assets/eraser-10.png") 0 24,
+    auto;
 }
 
 body.eraser {
-  cursor: url("assets/eraser-32.png") 0 16, auto;
+  cursor:
+    url("assets/eraser-20.png") 0 24,
+    auto;
+}
+
+body.eraser-lg {
+  cursor:
+    url("assets/eraser-30.png") 0 24,
+    auto;
 }
 
 body.clone {
-  cursor: url("assets/clone-20.png") 16 32, auto;
+  cursor:
+    url("assets/clone-20.png") 16 32,
+    auto;
 }
 body.clone-sm {
-  cursor: url("assets/clone-10.png") 16 32, auto;
+  cursor:
+    url("assets/clone-10.png") 16 32,
+    auto;
 }
 body.clone-lg {
-  cursor: url("assets/clone-30.png") 16 32, auto;
+  cursor:
+    url("assets/clone-30.png") 16 32,
+    auto;
 }
 
 .tool-options {

@@ -14,7 +14,7 @@ const loadImgInput = document.getElementById("load-img-input");
 const toolOptionsDiv = document.querySelector(".tool-options");
 let isDrawing = false;
 let strokeWidth = 2;
-let eraserWidth = 2;
+let eraserWidth = 8;
 let x;
 let y;
 let tool = "";
@@ -119,6 +119,7 @@ function handleStartOver() {
   colorFuncs.setPickedColor("#ffffff");
   tool = "";
   strokeWidth = "2";
+  eraserWidth = 8;
   toolFuncs.setCursor(tool);
   colorFuncs.reenableFgColor();
   cloneImage = undefined;
@@ -218,7 +219,6 @@ function handleEraserBtn(e) {
   tool = "eraser";
   toolFuncs.setCursor(tool);
   colorFuncs.disableFgColor();
-  // later will have a size adj option
   showToolOptions = true;
   handleToolOptions();
 }
