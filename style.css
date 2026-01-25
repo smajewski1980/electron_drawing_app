@@ -50,19 +50,19 @@ body.brush {
 
 body.eraser-sm {
   cursor:
-    url("assets/eraser-10.png") 0 24,
+    url("assets/eraser-10.png") 0 23,
     auto;
 }
 
 body.eraser {
   cursor:
-    url("assets/eraser-20.png") 0 24,
+    url("assets/eraser-20.png") 0 20,
     auto;
 }
 
 body.eraser-lg {
   cursor:
-    url("assets/eraser-30.png") 0 24,
+    url("assets/eraser-30.png") 0 13,
     auto;
 }
 
