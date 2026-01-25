@@ -36,41 +36,15 @@ const toolFuncs = {
       setWidth(Number(e.target.value));
 
       if (isEraser) {
-        switch (width) {
-          case "2":
-            document.body.className = "";
-            document.body.classList.add("eraser-sm");
-            break;
-          case "4":
-            document.body.className = "";
-            document.body.classList.add("eraser-sm");
-            break;
-          case "6":
-            document.body.className = "";
-            document.body.classList.add("eraser");
-            break;
-          case "8":
-            document.body.className = "";
-            document.body.classList.add("eraser");
-            break;
-          case "10":
-            document.body.className = "";
-            document.body.classList.add("eraser");
-            break;
-          case "12":
-            document.body.className = "";
-            document.body.classList.add("eraser-lg");
-            break;
-          case "14":
-            document.body.className = "";
-            document.body.classList.add("eraser-lg");
-            break;
-          case "16":
-            document.body.className = "";
-            document.body.classList.add("eraser-lg");
-            break;
-          default:
-            break;
+        if (width <= 4) {
+          document.body.className = "";
+          document.body.classList.add("eraser-sm");
+        } else if (width <= 10) {
+          document.body.className = "";
+          document.body.classList.add("eraser");
+        } else if (width <= 16) {
+          document.body.className = "";
+          document.body.classList.add("eraser-lg");
         }
       }
     });
