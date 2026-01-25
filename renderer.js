@@ -14,6 +14,7 @@ const loadImgInput = document.getElementById("load-img-input");
 const toolOptionsDiv = document.querySelector(".tool-options");
 let isDrawing = false;
 let strokeWidth = 2;
+let eraserWidth = 2;
 let x;
 let y;
 let tool = "";
@@ -37,6 +38,14 @@ function handleToolOptions() {
           toolFuncs.loadBrushOptions(
             strokeWidth,
             (newStrokeWidth) => (strokeWidth = newStrokeWidth),
+            false,
+          );
+          break;
+        case "eraser":
+          toolFuncs.loadBrushOptions(
+            eraserWidth,
+            (newEraserWidth) => (eraserWidth = newEraserWidth),
+            true,
           );
           break;
         case "clone":
@@ -210,7 +219,7 @@ function handleEraserBtn(e) {
   toolFuncs.setCursor(tool);
   colorFuncs.disableFgColor();
   // later will have a size adj option
-  showToolOptions = false;
+  showToolOptions = true;
   handleToolOptions();
 }
 
@@ -236,8 +245,8 @@ canvas.addEventListener("mousemove", (e) => {
     ctx.clearRect(
       Math.floor(e.offsetX),
       Math.floor(e.offsetY),
-      strokeWidth + 5,
-      strokeWidth + 5,
+      eraserWidth + 3,
+      eraserWidth + 3,
     );
   }
 });
