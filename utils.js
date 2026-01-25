@@ -92,7 +92,31 @@ const utils = {
 
     return canvas.toDataURL() === blank.toDataURL();
   },
+  /**
+   * Saves the current canvas to a file
+   * @param {HTMLCanvasElement} canvas
+   * @returns {void}
+   */
+  saveCanvas: (canvas) => {
+    canvas.toBlob(async (data) => {
+      const arrBuff = await data.arrayBuffer();
+      const response = await window.saveImage.saveImage("saveImage", arrBuff);
+      if (!response) {
+        console.log("save dialog was closed");
+        return;
+      }
+      console.log(await response);
+    }, "image/png");
+  },
+  /**
+   * sets the background color of the canvas
+   * @param {Event} e
+   * @param {HTMLCanvasElement} canvas
+   */
+  handleBgColorChange: (e, canvas) => {
+    const newBgColor = e.target.value;
+    canvas.style.backgroundColor = newBgColor;
+  },
 };
 
 export default utils;
-// both stacks, ctx, canvas

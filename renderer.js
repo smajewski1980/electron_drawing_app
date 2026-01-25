@@ -24,6 +24,10 @@ let redoStack = [];
 let showToolOptions = false;
 ctx.imageSmoothingEnabled = false;
 
+/**
+ * this displays the tool options ui for the current tool
+ * @returns {void}
+ */
 function handleToolOptions() {
   if (showToolOptions) {
     document.startViewTransition(() => {
@@ -94,92 +98,9 @@ const resizeObserver = new ResizeObserver((entries) => {
 resizeObserver.observe(canvas);
 
 /**
- * Saves the current canvas to a file
- * @returns {void}
+ * resets all of the individual items required to start over
  */
-function saveCanvas() {
-  canvas.toBlob(async (data) => {
-    const arrBuff = await data.arrayBuffer();
-    const response = await window.saveImage.saveImage("saveImage", arrBuff);
-    if (!response) {
-      console.log("save dialog was closed");
-      return;
-    }
-    console.log(await response);
-  }, "image/png");
-}
-
-// capture the point where the cursor touches the canvas
-canvas.addEventListener("mousedown", (e) => {
-  x = Math.floor(e.offsetX);
-  y = Math.floor(e.offsetY);
-  isDrawing = true;
-
-  if (tool === "clone" && !utils.isCanvasBlank(canvas)) {
-    if (!cloneImage) {
-      // set clone image
-      cloneImage = ctx.getImageData(
-        x - parseInt(cloneSize) / 2,
-        y - parseInt(cloneSize) / 2,
-        parseInt(cloneSize),
-        parseInt(cloneSize),
-      );
-      toolFuncs.loadCloneOptions(
-        cloneImage,
-        cloneSize,
-        (newCloneImg) => (cloneImage = newCloneImg),
-        (newCloneSize) => (cloneSize = newCloneSize),
-      );
-    } else {
-      // apply image to canvas
-      ctx.putImageData(
-        cloneImage,
-        x - parseInt(cloneSize) / 2,
-        y - parseInt(cloneSize) / 2,
-      );
-    }
-  }
-});
-
-// if mouse leaves the canvas lift the pen
-canvas.addEventListener("mouseleave", () => {
-  if (isDrawing) {
-    isDrawing = false;
-  }
-});
-
-// if the mouse is pressed draw when the mouse moves
-canvas.addEventListener("mousemove", (e) => {
-  if (isDrawing && tool === "brush") {
-    ctx.strokeStyle = colorFuncs.pickedColor();
-    ctx.lineWidth = strokeWidth;
-    ctx.beginPath();
-    // like picking the pen up and setting it down in a different spot on the paper, moveTo()
-    ctx.moveTo(x, y);
-    ctx.lineTo(Math.floor(e.offsetX), Math.floor(e.offsetY));
-    ctx.stroke();
-    ctx.closePath();
-    // set x and y to the current
-    x = Math.floor(e.offsetX);
-    y = Math.floor(e.offsetY);
-  } else if (isDrawing && tool === "eraser") {
-    ctx.clearRect(
-      Math.floor(e.offsetX),
-      Math.floor(e.offsetY),
-      strokeWidth + 5,
-      strokeWidth + 5,
-    );
-  }
-});
-
-// dont draw after the mouse button is released
-canvas.addEventListener("mouseup", () => {
-  isDrawing = false;
-  utils.saveState(canvas, undoStack);
-  redoStack = [];
-});
-
-clearBtn.addEventListener("click", (e) => {
+function handleStartOver() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   undoStack = [];
   redoStack = [];
@@ -194,17 +115,145 @@ clearBtn.addEventListener("click", (e) => {
   cloneImage = undefined;
   showToolOptions = false;
   handleToolOptions();
-});
+}
 
+/**
+ * sets the cloneImage, loads the clone options, puts the cloneImage on the canvas
+ */
+function handleCloneToolAction() {
+  if (!cloneImage) {
+    // set clone image
+    cloneImage = ctx.getImageData(
+      x - parseInt(cloneSize) / 2,
+      y - parseInt(cloneSize) / 2,
+      parseInt(cloneSize),
+      parseInt(cloneSize),
+    );
+    toolFuncs.loadCloneOptions(
+      cloneImage,
+      cloneSize,
+      (newCloneImg) => (cloneImage = newCloneImg),
+      (newCloneSize) => (cloneSize = newCloneSize),
+    );
+  } else {
+    // apply image to canvas
+    ctx.putImageData(
+      cloneImage,
+      x - parseInt(cloneSize) / 2,
+      y - parseInt(cloneSize) / 2,
+    );
+  }
+}
+
+/**
+ * handles the brush tool drawing to the canvas
+ * @param {Event} e
+ */
+function handleBrushAction(e) {
+  ctx.strokeStyle = colorFuncs.pickedColor();
+  ctx.lineWidth = strokeWidth;
+  ctx.beginPath();
+  // like picking the pen up and setting it down in a different spot on the paper, moveTo()
+  ctx.moveTo(x, y);
+  ctx.lineTo(Math.floor(e.offsetX), Math.floor(e.offsetY));
+  ctx.stroke();
+  ctx.closePath();
+  // set x and y to the current
+  setXandY(e);
+}
+
+/**
+ * set x and y for any of the mousedown tools
+ * @param {Event} e
+ */
+function setXandY(e) {
+  x = Math.floor(e.offsetX);
+  y = Math.floor(e.offsetY);
+  isDrawing = true;
+}
+
+/**
+ * sets the tool to the brush, changes the cursor, reactivates
+ * the color input in case it was disabled, show and set the tool options
+ * @param {Event} e
+ */
+function handleBrushBtn(e) {
+  tool = "brush";
+  toolFuncs.setCursor(tool);
+  colorFuncs.reenableFgColor();
+  showToolOptions = true;
+  handleToolOptions();
+}
+
+/**
+ * sets the tool to the clone tool, changes the cursor, disables the fg color picker,
+ * clears any existing clone image, resets the clone size, shows and set the tool options
+ * @param {Event} e
+ */
+function handleCloneBtn(e) {
+  tool = "clone";
+  cloneSize = "20";
+  cloneImage = undefined;
+  toolFuncs.setCursor(tool);
+  colorFuncs.disableFgColor();
+  showToolOptions = true;
+  handleToolOptions();
+}
+
+/**
+ * sets the tool to the eraser, changes the cursor, disables the fg color picker,
+ * shows and sets the tool options
+ * @param {Event} e
+ */
+function handleEraserBtn(e) {
+  tool = "eraser";
+  toolFuncs.setCursor(tool);
+  colorFuncs.disableFgColor();
+  // later will have a size adj option
+  showToolOptions = false;
+  handleToolOptions();
+}
+
+// capture the point where the cursor touches the canvas
+canvas.addEventListener("mousedown", (e) => {
+  setXandY(e);
+
+  if (tool === "clone" && !utils.isCanvasBlank(canvas)) {
+    handleCloneToolAction();
+  }
+});
+// if mouse leaves the canvas lift the pen
+canvas.addEventListener("mouseleave", (e) => {
+  if (isDrawing) {
+    isDrawing = false;
+  }
+});
+// if the mouse is pressed draw when the mouse moves
+canvas.addEventListener("mousemove", (e) => {
+  if (isDrawing && tool === "brush") {
+    handleBrushAction(e);
+  } else if (isDrawing && tool === "eraser") {
+    ctx.clearRect(
+      Math.floor(e.offsetX),
+      Math.floor(e.offsetY),
+      strokeWidth + 5,
+      strokeWidth + 5,
+    );
+  }
+});
+// dont draw after the mouse button is released
+canvas.addEventListener("mouseup", (e) => {
+  isDrawing = false;
+  utils.saveState(canvas, undoStack);
+  redoStack = [];
+});
+clearBtn.addEventListener("click", handleStartOver);
 saveBtn.addEventListener("click", (e) => {
-  saveCanvas();
+  utils.saveCanvas(canvas);
 });
-
 bgColorInput.addEventListener("change", (e) => {
-  const newBgColor = e.target.value;
-  canvas.style.backgroundColor = newBgColor;
+  utils.handleBgColorChange(e, canvas);
 });
-
 document.addEventListener("keydown", (e) => {
   if (e.ctrlKey && e.key === "z") {
     utils.undo(undoStack, redoStack, ctx);
@@ -214,34 +263,10 @@ document.addEventListener("keydown", (e) => {
     utils.redo(undoStack, redoStack, ctx);
   }
 });
-
 loadImgInput.addEventListener("change", (e) => {
   const fileToLoad = e.target.files[0];
   utils.loadImgOnCanvas(fileToLoad, ctx);
 });
-
-brushBtn.addEventListener("click", () => {
-  tool = "brush";
-  toolFuncs.setCursor(tool);
-  colorFuncs.reenableFgColor();
-  showToolOptions = true;
-  handleToolOptions();
-});
-
-cloneBtn.addEventListener("click", () => {
-  tool = "clone";
-  cloneSize = "20";
-  cloneImage = undefined;
-  toolFuncs.setCursor(tool);
-  colorFuncs.disableFgColor();
-  showToolOptions = true;
-  handleToolOptions();
-});
-
-eraserBtn.addEventListener("click", () => {
-  tool = "eraser";
-  toolFuncs.setCursor(tool);
-  colorFuncs.disableFgColor();
-  showToolOptions = false;
-  handleToolOptions();
-});
+brushBtn.addEventListener("click", handleBrushBtn);
+cloneBtn.addEventListener("click", handleCloneBtn);
+eraserBtn.addEventListener("click", handleEraserBtn);
