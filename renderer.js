@@ -24,6 +24,7 @@ let undoStack = [];
 let redoStack = [];
 let showToolOptions = false;
 ctx.imageSmoothingEnabled = false;
+let brushOpacity = 1;
 
 /**
  * this displays the tool options ui for the current tool
@@ -39,6 +40,8 @@ function handleToolOptions() {
             strokeWidth,
             (newStrokeWidth) => (strokeWidth = newStrokeWidth),
             false,
+            brushOpacity,
+            (newBrushOpacity) => (brushOpacity = newBrushOpacity),
           );
           break;
         case "eraser":
@@ -165,9 +168,11 @@ function handleBrushAction(e) {
   ctx.beginPath();
   // like picking the pen up and setting it down in a different spot on the paper, moveTo()
   ctx.moveTo(x, y);
+  ctx.globalAlpha = parseFloat(brushOpacity);
   ctx.lineTo(Math.floor(e.offsetX), Math.floor(e.offsetY));
   ctx.stroke();
   ctx.closePath();
+  ctx.globalAlpha = 1;
   // set x and y to the current
   setXandY(e);
 }

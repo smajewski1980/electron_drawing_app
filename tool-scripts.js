@@ -6,8 +6,17 @@ const toolFuncs = {
    * send the new strokewidth back through a cb when the input val changes
    * @param {number} width
    * @param {function} setWidth
+   * @param {boolean} isEraser
+   * @param {string} brushOpacity
+   * @param {function} setBrushOpacity
    */
-  loadBrushOptions: (width, setWidth, isEraser) => {
+  loadBrushOptions: (
+    width,
+    setWidth,
+    isEraser,
+    brushOpacity = "1",
+    setBrushOpacity,
+  ) => {
     toolOptionsWrapper.innerHTML = "";
 
     const ctrlGrpDiv = document.createElement("div");
@@ -30,6 +39,34 @@ const toolFuncs = {
     ctrlGrpDiv.appendChild(label);
     ctrlGrpDiv.appendChild(input);
     toolOptionsWrapper.appendChild(ctrlGrpDiv);
+
+    // if tool is not the eraser, load the opacity selector input
+    if (!isEraser) {
+      const label2 = document.createElement("label");
+      label2.id = "opacity-label";
+      label2.htmlFor = "opacity";
+      label2.textContent = "opacity";
+
+      const input2 = document.createElement("input");
+      input2.type = "range";
+      input2.name = "opacity";
+      input2.id = "opacity";
+      input2.min = ".2";
+      input2.max = "1";
+      input2.step = ".2";
+      input2.value = brushOpacity;
+
+      const ctrlGrpDiv2 = document.createElement("div");
+      ctrlGrpDiv2.classList.add("control-group");
+      ctrlGrpDiv2.appendChild(label2);
+      ctrlGrpDiv2.appendChild(input2);
+      toolOptionsWrapper.appendChild(ctrlGrpDiv2);
+
+      input2.addEventListener("change", (e) => {
+        const newOpacity = e.target.value;
+        setBrushOpacity(newOpacity);
+      });
+    }
 
     input.addEventListener("change", (e) => {
       width = e.target.value;
