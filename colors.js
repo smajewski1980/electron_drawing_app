@@ -1,5 +1,6 @@
 const colorInput = document.getElementById("color-input");
 let pickedColor = "#ffffff";
+const recentColors = [];
 
 const colorFuncs = {
   /**
@@ -12,7 +13,10 @@ const colorFuncs = {
    * @param {color} color
    * @returns {void}
    */
-  setPickedColor: (color) => (pickedColor = color),
+  setPickedColor: (color) => {
+    pickedColor = color;
+    colorFuncs.addToRecentColors(color);
+  },
   /**
    *
    * @param {color} color
@@ -27,6 +31,20 @@ const colorFuncs = {
   handleBgColorChange: (e, canvas) => {
     const newBgColor = e.target.value;
     canvas.style.backgroundColor = newBgColor;
+    colorFuncs.addToRecentColors(newBgColor);
+  },
+  /**
+   * this adds a color to the recent colors array
+   * maintaining a length of 5 in the array
+   * @param {string} color
+   */
+  addToRecentColors: (color) => {
+    if (recentColors.length < 5) {
+      recentColors.push(color);
+    } else {
+      recentColors.shift();
+      recentColors.push(color);
+    }
   },
 };
 
