@@ -39,6 +39,7 @@ const colorFuncs = {
    * @param {string} color
    */
   addToRecentColors: (color) => {
+    if (recentColors.includes(color)) return;
     if (recentColors.length < 5) {
       recentColors.push(color);
     } else {
@@ -57,8 +58,12 @@ const colorFuncs = {
 
     recentClrDivs.reverse().forEach((el, idx) => {
       el.style.backgroundColor = recentColors[idx];
+      el.dataset.color = recentColors[idx];
     });
   },
+  /**
+   * empties the recentColors array
+   */
   clearRecentPallette: () => (recentColors.length = 0),
 };
 
