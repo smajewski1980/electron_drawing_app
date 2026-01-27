@@ -1,3 +1,5 @@
+import colorFuncs from "./colors.js";
+import utils from "./utils.js";
 const toolOptionsWrapper = document.getElementById("options-wrapper");
 
 const toolFuncs = {
@@ -190,9 +192,58 @@ const toolFuncs = {
    */
   setCursor: (tool) => {
     document.body.className = "";
-    if (tool) {
-      document.body.classList.add(tool);
-    }
+    if (tool === "colors" || !tool) return;
+    document.body.classList.add(tool);
+  },
+  /**
+   * Clear the toolOptionWrapper and load it with color options
+   * @param {HTMLCanvasElement} canvas
+   */
+  loadColorsOptions: (canvas) => {
+    toolOptionsWrapper.innerHTML = "";
+
+    const group = document.createElement("div");
+    group.className = "control-group";
+
+    const labelFg = document.createElement("label");
+    labelFg.htmlFor = "color-input";
+    labelFg.textContent = "F.G. Color";
+
+    const inputFg = document.createElement("input");
+    inputFg.type = "color";
+    inputFg.name = "color";
+    inputFg.id = "color-input";
+    inputFg.value = colorFuncs.pickedColor();
+
+    group.appendChild(labelFg);
+    group.appendChild(inputFg);
+
+    const group2 = document.createElement("div");
+    group2.className = "control-group";
+
+    const labelBg = document.createElement("label");
+    labelBg.htmlFor = "bg-color-input";
+    labelBg.textContent = "B.G. Color";
+
+    const inputBg = document.createElement("input");
+    inputBg.type = "color";
+    inputBg.name = "color";
+    inputBg.id = "bg-color-input";
+    inputBg.value = "#202020";
+
+    group2.appendChild(labelBg);
+    group2.appendChild(inputBg);
+
+    toolOptionsWrapper.appendChild(group);
+    toolOptionsWrapper.appendChild(group2);
+
+    inputFg.addEventListener("change", (e) => {
+      colorFuncs.setPickedColor(e.target.value);
+    });
+
+    inputBg.addEventListener("change", (e) => {
+      utils.handleBgColorChange(e, canvas);
+    });
   },
 };
 

@@ -5,6 +5,7 @@ import colorFuncs from "./colors.js";
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const bgColorInput = document.getElementById("bg-color-input");
+const colorsBtn = document.getElementById("colors-btn");
 const brushBtn = document.getElementById("brush-btn");
 const cloneBtn = document.getElementById("clone-btn");
 const eraserBtn = document.getElementById("eraser-btn");
@@ -35,6 +36,9 @@ function handleToolOptions() {
     document.startViewTransition(() => {
       toolOptionsDiv.style.top = "1rem";
       switch (tool) {
+        case "colors":
+          toolFuncs.loadColorsOptions(canvas);
+          break;
         case "brush":
           toolFuncs.loadBrushOptions(
             strokeWidth,
@@ -117,14 +121,12 @@ function handleStartOver() {
   undoStack = [];
   redoStack = [];
   canvas.style.backgroundColor = "#202020";
-  bgColorInput.value = "#202020";
-  colorFuncs.setColorInputVal("#ffffff");
   colorFuncs.setPickedColor("#ffffff");
   tool = "";
   strokeWidth = "2";
   eraserWidth = 8;
+  brushOpacity = 1;
   toolFuncs.setCursor(tool);
-  colorFuncs.reenableFgColor();
   cloneImage = undefined;
   showToolOptions = false;
   handleToolOptions();
@@ -188,20 +190,29 @@ function setXandY(e) {
 }
 
 /**
- * sets the tool to the brush, changes the cursor, reactivates
- * the color input in case it was disabled, show and set the tool options
+ *
+ * @param {Event} e
+ */
+function handleColorsBtn(e) {
+  tool = "colors";
+  showToolOptions = true;
+  toolFuncs.setCursor(tool);
+  handleToolOptions();
+}
+
+/**
+ * sets the tool to the brush, changes the cursor, show and set the tool options
  * @param {Event} e
  */
 function handleBrushBtn(e) {
   tool = "brush";
   toolFuncs.setCursor(tool);
-  colorFuncs.reenableFgColor();
   showToolOptions = true;
   handleToolOptions();
 }
 
 /**
- * sets the tool to the clone tool, changes the cursor, disables the fg color picker,
+ * sets the tool to the clone tool, changes the cursor,
  * clears any existing clone image, resets the clone size, shows and set the tool options
  * @param {Event} e
  */
@@ -210,20 +221,18 @@ function handleCloneBtn(e) {
   cloneSize = "20";
   cloneImage = undefined;
   toolFuncs.setCursor(tool);
-  colorFuncs.disableFgColor();
   showToolOptions = true;
   handleToolOptions();
 }
 
 /**
- * sets the tool to the eraser, changes the cursor, disables the fg color picker,
+ * sets the tool to the eraser, changes the cursor,
  * shows and sets the tool options
  * @param {Event} e
  */
 function handleEraserBtn(e) {
   tool = "eraser";
   toolFuncs.setCursor(tool);
-  colorFuncs.disableFgColor();
   showToolOptions = true;
   handleToolOptions();
 }
@@ -265,9 +274,9 @@ clearBtn.addEventListener("click", handleStartOver);
 saveBtn.addEventListener("click", (e) => {
   utils.saveCanvas(canvas);
 });
-bgColorInput.addEventListener("change", (e) => {
-  utils.handleBgColorChange(e, canvas);
-});
+// bgColorInput.addEventListener("change", (e) => {
+//   utils.handleBgColorChange(e, canvas);
+// });
 document.addEventListener("keydown", (e) => {
   if (e.ctrlKey && e.key === "z") {
     utils.undo(undoStack, redoStack, ctx);
@@ -281,6 +290,7 @@ loadImgInput.addEventListener("change", (e) => {
   const fileToLoad = e.target.files[0];
   utils.loadImgOnCanvas(fileToLoad, ctx);
 });
+colorsBtn.addEventListener("click", handleColorsBtn);
 brushBtn.addEventListener("click", handleBrushBtn);
 cloneBtn.addEventListener("click", handleCloneBtn);
 eraserBtn.addEventListener("click", handleEraserBtn);

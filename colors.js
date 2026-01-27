@@ -1,5 +1,5 @@
 const colorInput = document.getElementById("color-input");
-let pickedColor = "white";
+let pickedColor = "#ffffff";
 
 const colorFuncs = {
   /**
@@ -41,8 +41,8 @@ const colorFuncs = {
   setColorInputVal: (color) => (colorInput.value = color),
 };
 
-colorInput.addEventListener("change", (e) => {
-  pickedColor = e.target.value;
-});
+// colorInput.addEventListener("change", (e) => {
+//   pickedColor = e.target.value;
+// });
 
 export default colorFuncs;
