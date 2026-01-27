@@ -108,15 +108,6 @@ const utils = {
       console.log(await response);
     }, "image/png");
   },
-  /**
-   * sets the background color of the canvas
-   * @param {Event} e
-   * @param {HTMLCanvasElement} canvas
-   */
-  handleBgColorChange: (e, canvas) => {
-    const newBgColor = e.target.value;
-    canvas.style.backgroundColor = newBgColor;
-  },
 };
 
 export default utils;

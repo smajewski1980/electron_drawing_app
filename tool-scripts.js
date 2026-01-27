@@ -264,7 +264,7 @@ const toolFuncs = {
     });
 
     inputBg.addEventListener("change", (e) => {
-      utils.handleBgColorChange(e, canvas);
+      colorFuncs.handleBgColorChange(e, canvas);
     });
   },
 };

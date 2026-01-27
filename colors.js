@@ -3,26 +3,6 @@ let pickedColor = "#ffffff";
 
 const colorFuncs = {
   /**
-   * this diasables the foreground color picker when called
-   */
-  disableFgColor: () => {
-    const label = colorInput.labels[0];
-    label.inert = true;
-    label.style.opacity = 0.4;
-    colorInput.inert = true;
-    colorInput.style.opacity = 0.4;
-  },
-  /**
-   * this reenables the foreground color picker when called
-   */
-  reenableFgColor: () => {
-    const label = colorInput.labels[0];
-    colorInput.inert = false;
-    label.inert = false;
-    colorInput.style.opacity = 1;
-    label.style.opacity = 1;
-  },
-  /**
    * returns the current picked color
    * @returns {color}
    */
@@ -39,10 +19,15 @@ const colorFuncs = {
    * @returns {void}
    */
   setColorInputVal: (color) => (colorInput.value = color),
+  /**
+   * sets the background color of the canvas
+   * @param {Event} e
+   * @param {HTMLCanvasElement} canvas
+   */
+  handleBgColorChange: (e, canvas) => {
+    const newBgColor = e.target.value;
+    canvas.style.backgroundColor = newBgColor;
+  },
 };
-
-// colorInput.addEventListener("change", (e) => {
-//   pickedColor = e.target.value;
-// });
 
 export default colorFuncs;

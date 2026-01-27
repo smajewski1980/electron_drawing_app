@@ -274,9 +274,6 @@ clearBtn.addEventListener("click", handleStartOver);
 saveBtn.addEventListener("click", (e) => {
   utils.saveCanvas(canvas);
 });
-// bgColorInput.addEventListener("change", (e) => {
-//   utils.handleBgColorChange(e, canvas);
-// });
 document.addEventListener("keydown", (e) => {
   if (e.ctrlKey && e.key === "z") {
     utils.undo(undoStack, redoStack, ctx);
