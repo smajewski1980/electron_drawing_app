@@ -85,7 +85,7 @@ body.clone-lg {
 .tool-options {
   position: absolute;
   display: flex;
-  align-items: center;
+  align-items: start;
   gap: 1rem;
   top: -100%;
   left: 1rem;
@@ -107,6 +107,28 @@ body.clone-lg {
 
     &:active {
       scale: 0.95;
+    }
+  }
+
+  #recent-colors-wrapper {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: repeat(6, 1fr);
+    position: relative;
+    margin-block-start: 0.5rem;
+    margin-inline-start: 2rem;
+
+    & > div {
+      width: 1.5rem;
+      height: 1.5rem;
+      outline: 1px solid limegreen;
+      cursor: pointer;
+    }
+
+    #recent-label {
+      position: absolute;
+      right: calc(100% + 3rem);
+      white-space: nowrap;
     }
   }
 }

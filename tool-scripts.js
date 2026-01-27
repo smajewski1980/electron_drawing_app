@@ -234,8 +234,30 @@ const toolFuncs = {
     group2.appendChild(labelBg);
     group2.appendChild(inputBg);
 
+    const group3 = document.createElement("div");
+    group3.className = "control-group";
+    group3.id = "recent-colors-wrapper";
+
+    const recentLabel = document.createElement("p");
+    recentLabel.textContent = "recent colors:";
+    recentLabel.id = "recent-label";
+
+    const recent1 = document.createElement("div");
+    const recent2 = document.createElement("div");
+    const recent3 = document.createElement("div");
+    const recent4 = document.createElement("div");
+    const recent5 = document.createElement("div");
+
+    group3.appendChild(recentLabel);
+    group3.appendChild(recent1);
+    group3.appendChild(recent2);
+    group3.appendChild(recent3);
+    group3.appendChild(recent4);
+    group3.appendChild(recent5);
+
     toolOptionsWrapper.appendChild(group);
     toolOptionsWrapper.appendChild(group2);
+    toolOptionsWrapper.appendChild(group3);
 
     inputFg.addEventListener("change", (e) => {
       colorFuncs.setPickedColor(e.target.value);
