@@ -243,10 +243,15 @@ const toolFuncs = {
     recentLabel.id = "recent-label";
 
     const recent1 = document.createElement("div");
+    recent1.className = "recent-color";
     const recent2 = document.createElement("div");
+    recent2.className = "recent-color";
     const recent3 = document.createElement("div");
+    recent3.className = "recent-color";
     const recent4 = document.createElement("div");
+    recent4.className = "recent-color";
     const recent5 = document.createElement("div");
+    recent5.className = "recent-color";
 
     group3.appendChild(recentLabel);
     group3.appendChild(recent1);
@@ -266,6 +271,8 @@ const toolFuncs = {
     inputBg.addEventListener("change", (e) => {
       colorFuncs.handleBgColorChange(e, canvas);
     });
+
+    colorFuncs.refreshRecentColorsPallette();
   },
 };
 

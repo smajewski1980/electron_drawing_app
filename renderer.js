@@ -121,7 +121,6 @@ function handleStartOver() {
   undoStack = [];
   redoStack = [];
   canvas.style.backgroundColor = "#202020";
-  colorFuncs.setPickedColor("#ffffff");
   tool = "";
   strokeWidth = "2";
   eraserWidth = 8;
@@ -130,6 +129,10 @@ function handleStartOver() {
   cloneImage = undefined;
   showToolOptions = false;
   handleToolOptions();
+  setTimeout(() => {
+    colorFuncs.setPickedColor("#ffffff");
+    colorFuncs.clearRecentPallette();
+  }, 1000);
 }
 
 /**
