@@ -242,37 +242,25 @@ const toolFuncs = {
     recentLabel.textContent = "recent colors:";
     recentLabel.id = "recent-label";
 
+    function handleRecentColor(e) {
+      if (e.target.dataset.color != "undefined") {
+        colorFuncs.setPickedColor(e.target.dataset.color);
+        inputFg.value = e.target.dataset.color;
+      }
+    }
+
+    function createRecentColorDiv() {
+      const newDiv = document.createElement("div");
+      newDiv.className = "recent-color";
+      newDiv.addEventListener("click", handleRecentColor);
+      return newDiv;
+    }
     // later refactor these, lots of repetition....
-    const recent1 = document.createElement("div");
-    recent1.className = "recent-color";
-    recent1.addEventListener("click", (e) => {
-      colorFuncs.setPickedColor(e.target.dataset.color);
-      inputFg.value = e.target.dataset.color;
-    });
-    const recent2 = document.createElement("div");
-    recent2.className = "recent-color";
-    recent2.addEventListener("click", (e) => {
-      colorFuncs.setPickedColor(e.target.dataset.color);
-      inputFg.value = e.target.dataset.color;
-    });
-    const recent3 = document.createElement("div");
-    recent3.className = "recent-color";
-    recent3.addEventListener("click", (e) => {
-      colorFuncs.setPickedColor(e.target.dataset.color);
-      inputFg.value = e.target.dataset.color;
-    });
-    const recent4 = document.createElement("div");
-    recent4.className = "recent-color";
-    recent4.addEventListener("click", (e) => {
-      colorFuncs.setPickedColor(e.target.dataset.color);
-      inputFg.value = e.target.dataset.color;
-    });
-    const recent5 = document.createElement("div");
-    recent5.className = "recent-color";
-    recent5.addEventListener("click", (e) => {
-      colorFuncs.setPickedColor(e.target.dataset.color);
-      inputFg.value = e.target.dataset.color;
-    });
+    const recent1 = createRecentColorDiv();
+    const recent2 = createRecentColorDiv();
+    const recent3 = createRecentColorDiv();
+    const recent4 = createRecentColorDiv();
+    const recent5 = createRecentColorDiv();
 
     group3.appendChild(recentLabel);
     group3.appendChild(recent1);
