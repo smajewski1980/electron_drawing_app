@@ -4,7 +4,6 @@ import colorFuncs from "./colors.js";
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-const bgColorInput = document.getElementById("bg-color-input");
 const colorsBtn = document.getElementById("colors-btn");
 const brushBtn = document.getElementById("brush-btn");
 const cloneBtn = document.getElementById("clone-btn");
@@ -32,14 +31,17 @@ let brushOpacity = 1;
  * @returns {void}
  */
 function handleToolOptions() {
+  // if the selected tool needs the options menu
   if (showToolOptions) {
     document.startViewTransition(() => {
+      // slide in the menu, css has it behind the canvas
       toolOptionsDiv.style.top = "1rem";
       switch (tool) {
         case "colors":
           toolFuncs.loadColorsOptions(canvas);
           break;
         case "brush":
+          // called with some callbacks to update items on this page
           toolFuncs.loadBrushOptions(
             strokeWidth,
             (newStrokeWidth) => (strokeWidth = newStrokeWidth),
@@ -49,6 +51,7 @@ function handleToolOptions() {
           );
           break;
         case "eraser":
+          // called with a callback to update an item on this page
           toolFuncs.loadBrushOptions(
             eraserWidth,
             (newEraserWidth) => (eraserWidth = newEraserWidth),
@@ -56,6 +59,7 @@ function handleToolOptions() {
           );
           break;
         case "clone":
+          // called with some callbacks to update items on this page
           toolFuncs.loadCloneOptions(
             cloneImage,
             cloneSize,
@@ -68,6 +72,7 @@ function handleToolOptions() {
       }
     });
   } else {
+    // if a tool is chosen that does not need the menu, slide it away
     document.startViewTransition(() => {
       toolOptionsDiv.style.top = "-100%";
     });
@@ -147,6 +152,7 @@ function handleCloneToolAction() {
       parseInt(cloneSize),
       parseInt(cloneSize),
     );
+    // called with some callbacks to update items on this page
     toolFuncs.loadCloneOptions(
       cloneImage,
       cloneSize,
@@ -193,7 +199,7 @@ function setXandY(e) {
 }
 
 /**
- *
+ * handle the selection of the color tool
  * @param {Event} e
  */
 function handleColorsBtn(e) {
@@ -204,7 +210,7 @@ function handleColorsBtn(e) {
 }
 
 /**
- * sets the tool to the brush, changes the cursor, show and set the tool options
+ * handle the selection of the brush tool
  * @param {Event} e
  */
 function handleBrushBtn(e) {
@@ -215,8 +221,7 @@ function handleBrushBtn(e) {
 }
 
 /**
- * sets the tool to the clone tool, changes the cursor,
- * clears any existing clone image, resets the clone size, shows and set the tool options
+ * handle the selection of the clone tool
  * @param {Event} e
  */
 function handleCloneBtn(e) {
@@ -229,8 +234,7 @@ function handleCloneBtn(e) {
 }
 
 /**
- * sets the tool to the eraser, changes the cursor,
- * shows and sets the tool options
+ * handle the selection of the eraser tool
  * @param {Event} e
  */
 function handleEraserBtn(e) {
@@ -240,8 +244,8 @@ function handleEraserBtn(e) {
   handleToolOptions();
 }
 
-// capture the point where the cursor touches the canvas
 canvas.addEventListener("mousedown", (e) => {
+  // capture the point where the cursor touches the canvas
   setXandY(e);
 
   if (tool === "clone" && !utils.isCanvasBlank(canvas)) {
@@ -273,10 +277,13 @@ canvas.addEventListener("mouseup", (e) => {
   utils.saveState(canvas, undoStack);
   redoStack = [];
 });
+// clear the canvas and reset all values back to start state
 clearBtn.addEventListener("click", handleStartOver);
+// save the wonderful masterpiece that is the current canvas
 saveBtn.addEventListener("click", (e) => {
   utils.saveCanvas(canvas);
 });
+// listen to the document for the undo and redo key combos
 document.addEventListener("keydown", (e) => {
   if (e.ctrlKey && e.key === "z") {
     utils.undo(undoStack, redoStack, ctx);
@@ -286,10 +293,12 @@ document.addEventListener("keydown", (e) => {
     utils.redo(undoStack, redoStack, ctx);
   }
 });
+// load a file to turn into a masterpiece
 loadImgInput.addEventListener("change", (e) => {
   const fileToLoad = e.target.files[0];
   utils.loadImgOnCanvas(fileToLoad, ctx);
 });
+// tool selection button listeners
 colorsBtn.addEventListener("click", handleColorsBtn);
 brushBtn.addEventListener("click", handleBrushBtn);
 cloneBtn.addEventListener("click", handleCloneBtn);
