@@ -18,11 +18,16 @@ const utils = {
    * @returns {void}
    */
   undo: (undoStack, redoStack, ctx) => {
+    // early return if the stack is empty
     if (undoStack.length === 0) return;
     if (undoStack.length > 1) {
+      // get the top of the stack
       const curr = undoStack.pop();
+      // put it on the redo stack
       redoStack.push(curr);
+      // take the new top of the stack
       const prevUrl = undoStack[undoStack.length - 1];
+      // create an image and draw to the canvas
       const img = new Image();
       img.src = prevUrl;
       img.onload = () => {
@@ -30,6 +35,7 @@ const utils = {
         ctx.drawImage(img, 0, 0);
       };
     } else {
+      // if only one action in the stack, push to redo stack and clear the canvas
       const curr = undoStack.pop();
       redoStack.push(curr);
       ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -44,8 +50,10 @@ const utils = {
    */
   redo: (undoStack, redoStack, ctx) => {
     if (redoStack.length > 0) {
+      // take off redo stack and put on undo stack
       const curr = redoStack.pop();
       undoStack.push(curr);
+      // create an image and draw to canvas
       const img = new Image();
       img.src = curr;
       img.onload = () => {
@@ -62,13 +70,14 @@ const utils = {
    */
   loadImgOnCanvas: (file, ctx) => {
     if (file && file.type.startsWith("image/")) {
+      // get the file into a file reader obj
       const reader = new FileReader();
       reader.readAsDataURL(file);
-
+      // once the file loads, make an image obj
       reader.onload = (e) => {
         const img = new Image();
         img.src = e.target.result;
-
+        // once the image obj is ready, clear the canvas and draw the image
         img.onload = (e) => {
           ctx.clearRect(0, 0, canvas.width, canvas.height);
           img.width = (img.width / img.height) * canvas.height;
@@ -98,6 +107,7 @@ const utils = {
    * @returns {void}
    */
   saveCanvas: (canvas) => {
+    // convert the canvas image to data that can be saved
     canvas.toBlob(async (data) => {
       const arrBuff = await data.arrayBuffer();
       const response = await window.saveImage.saveImage("saveImage", arrBuff);
